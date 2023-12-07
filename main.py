@@ -1,15 +1,22 @@
 import discord
 import extras
-
-class MyClient(discord.Client):
-    async def on_ready(self):
-        print(f'Logged on as {self.user}!')
-
-    async def on_message(self, message):
-        print(f'Message from {message.author}: {message.content}')
+from discord.ext import commands
+import random
 
 intents = discord.Intents.default()
 intents.message_content = True
+bot = commands.Bot(command_prefix='#', intents=intents)
 
-client = MyClient(intents=intents)
-client.run(extras.dsc_tkn)
+@bot.command(name='h')
+async def bot_help(ctx):
+    help_message = """
+
+    """
+    await ctx.send(help_message)
+
+@bot.command(name='roll')
+async def roll_dice(ctx, arg):
+    if arg == 'd20':
+        await ctx.send(random.randint(1,20))
+
+bot.run(extras.dsc_tkn)
