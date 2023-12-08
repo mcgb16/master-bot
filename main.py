@@ -1,22 +1,20 @@
-import discord
 import extras
-from discord.ext import commands
-import random
+import bot_methods
 
-intents = discord.Intents.default()
+intents = bot_methods.discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix='#', intents=intents)
+bot = bot_methods.commands.Bot(command_prefix='#', intents=intents)
 
-@bot.command(name='h')
+@bot.command()
 async def bot_help(ctx):
-    help_message = """
-
-    """
-    await ctx.send(help_message)
+    pass
 
 @bot.command(name='roll')
-async def roll_dice(ctx, arg):
-    if arg == 'd20':
-        await ctx.send(random.randint(1,20))
+async def roll_dice(ctx, *, content: bot_methods.command_roll_dice):
+    await ctx.send(await content)
+
+@bot.command()
+async def character_creation(ctx):
+    pass
 
 bot.run(extras.dsc_tkn)
