@@ -1,14 +1,18 @@
 import discord
 from discord.ext import commands
 from random import randint
+import help_methods
 
 async def command_help(arg):
     if arg == 'player':
-        player_creation = create_player()
+        player_creation = help_methods.create_player_help()
         return player_creation
     elif arg == 'npc':
-        npc_creation = create_npc()
+        npc_creation = help_methods.create_npc_help()
         return npc_creation
+    elif arg == None:
+        help_all_in_one = help_methods.all_in_one_help()
+        return help_all_in_one
 
 async def command_roll_dice(dice):
     wrong_command = """
@@ -25,25 +29,3 @@ Para rodar um dado, digite da seguinte forma o comando (variando o valor do dado
             return dice_result
         except:
             return wrong_command
-
-# Não Iniciada
-def create_player():
-    temporary_message = "Works"
-    return temporary_message
-
-# Não Iniciada
-def create_npc():
-    temporary_message = "Works"
-    return temporary_message
-
-def verify_none(content):
-    if content == None:
-        return
-    else:
-        return True
-
-def verify_bot_message(ctx):
-    if ctx.author.bot:
-        return
-    else:
-        return True
