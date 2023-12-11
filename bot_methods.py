@@ -19,9 +19,12 @@ Para rodar um dado, digite da seguinte forma o comando (variando o valor do dado
     if dice[0] != 'd':
         return wrong_command
     else:
-        dice_number = dice.replace('d', '')
-        dice_result = randint(1,int(dice_number))
-        return dice_result
+        try:
+            dice_number = dice.replace('d', '')
+            dice_result = randint(1,int(dice_number))
+            return dice_result
+        except:
+            return wrong_command
 
 # Não Iniciada
 def create_player():
@@ -32,3 +35,15 @@ def create_player():
 def create_npc():
     temporary_message = "Works"
     return temporary_message
+
+def verify_none(content):
+    if content == None:
+        return
+    else:
+        return True
+
+def verify_bot_message(ctx):
+    if ctx.author.bot:
+        return
+    else:
+        return True
