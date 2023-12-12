@@ -17,7 +17,7 @@ async def command_help(arg):
 async def command_roll_dice(dice):
     wrong_command = """
 Para rodar um dado, digite da seguinte forma o comando (variando o valor do dado que deseja rodar):
-#roll d20
+?roll d20
 """
     
     if dice[0] != 'd':
