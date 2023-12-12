@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from random import randint
 import help_methods
+import db_connection
 
 async def command_help(arg):
     if arg == 'player':
