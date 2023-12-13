@@ -14,7 +14,6 @@ async def roll_dice(ctx, *, content: bot_methods.command_roll_dice = None):
     
     await ctx.send(await content)
 
-# Não finalizado (devido as funções de criação)
 @bot.command(name='h')
 async def bot_help(ctx,*, content: bot_methods.command_help = None):
     if bot_methods.help_methods.verify_bot_message(ctx) == None:
@@ -33,5 +32,13 @@ async def bot_help(ctx,*, content: bot_methods.command_help = None):
     except bot_methods.discord.Forbidden as e:
         await ctx.send(error_message)
 
+@bot.command(name='cplayer')
+async def create_player(ctx, *, content: bot_methods.command_create_player = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
 
 bot.run(extras.dsc_tkn)
