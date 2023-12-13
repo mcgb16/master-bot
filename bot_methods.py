@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from random import randint
 import help_methods
-# import db_connection
+import db_connection
 
 async def command_help(arg):
     if arg == 'player':
@@ -32,6 +32,8 @@ Para rodar um dado, digite da seguinte forma o comando (variando o valor do dado
             return wrong_command
 
 async def command_create_player(player_info):
+    success_message = "Jogador criado com sucesso!"
+    
     all_players_info = player_info.split()
     string_to_dict = ''
     
@@ -48,13 +50,20 @@ async def command_create_player(player_info):
             string_to_dict += f"'{j[0]}',"
         else:
             string_to_dict += f"'{i}'"
-
     string_to_dict_formatted = "{" + string_to_dict + "}"
 
     try:
         player_info_dict = eval(string_to_dict_formatted)
-        print(type(player_info_dict))
+
+        insert_player_db = db_connection.create_player_db(player_info_dict)
         
-        return player_info_dict
+        if insert_player_db == True:
+            return success_message
+        else:
+            return insert_player_db
     except Exception as e:
         print(e)
+
+        help_player_msg = help_methods.create_player_help()
+
+        return help_player_msg
