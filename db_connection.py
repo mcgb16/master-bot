@@ -44,3 +44,6 @@ with sqlite3.connect(extras.sqlite_db) as conn:
     except sqlite3.Error as e:
         print("Erro SQLite:", e)
         conn.rollback()
+
+def create_player_db(player_dict):
+    pass
