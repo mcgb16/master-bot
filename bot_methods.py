@@ -32,7 +32,8 @@ Para rodar um dado, digite da seguinte forma o comando (variando o valor do dado
             return wrong_command
 
 async def command_create_player(player_info):
-    success_message = "Jogador criado com sucesso!"
+    success_message = "Jogador criado com sucesso! O seu ID é: "
+    get_player_id = 'SELECT player_id FROM players ORDER BY player_id DESC LIMIT 1'
     
     all_players_info = player_info.split()
     string_to_dict = ''
@@ -58,7 +59,11 @@ async def command_create_player(player_info):
         insert_player_db = db_connection.create_player_db(player_info_dict)
         
         if insert_player_db == True:
-            return success_message
+            player_id = db_connection.execute_sqlite_select(get_player_id)
+
+            return_message = success_message + str(player_id[0][0])
+
+            return return_message
         else:
             return insert_player_db
     except Exception as e:
