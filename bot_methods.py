@@ -67,3 +67,36 @@ async def command_create_player(player_info):
         help_player_msg = help_methods.create_player_help()
 
         return help_player_msg
+
+def command_search_player(player_id):
+    search_command = f'SELECT * FROM players WHERE player_id = {player_id}'
+    
+    search_player_result  = db_connection.execute_sqlite_select(search_command)
+
+    p_id = search_player_result[0][0]
+    name = search_player_result[0][1]
+    dex = search_player_result[0][2]
+    strenght = search_player_result[0][3]
+    cons = search_player_result[0][4]
+    intelligence = search_player_result[0][5]
+    wis = search_player_result[0][6]
+    charisma = search_player_result[0][7]
+    hp = search_player_result[0][8]
+    gold = search_player_result[0][9]
+
+
+    player_result = discord.Embed(
+        title=f'ID do Player: {p_id}',
+        color= discord.Colour.random()
+    )
+    player_result.add_field(name='Nome do Player', value=name, inline=False)
+    player_result.add_field(name='Destreza', value=dex, inline=True)
+    player_result.add_field(name='Força', value=strenght, inline=True)
+    player_result.add_field(name='Constituição', value=cons, inline=True)
+    player_result.add_field(name='Inteligência', value=intelligence, inline=True)
+    player_result.add_field(name='Sabedoria', value=wis, inline=True)
+    player_result.add_field(name='Carisma', value=charisma, inline=True)
+    player_result.add_field(name='HP', value=hp, inline=True)
+    player_result.add_field(name='Ouro', value=gold, inline=True)
+
+    return player_result
