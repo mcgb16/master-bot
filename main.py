@@ -59,4 +59,13 @@ async def create_npc(ctx, *, content: bot_methods.command_create_npc = None):
     
     await ctx.send(await content)
 
+@bot.command(name='snpc')
+async def search_npc(ctx, *, content: bot_methods.command_search_npc = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(embed=content)
+
 bot.run(extras.dsc_tkn)
