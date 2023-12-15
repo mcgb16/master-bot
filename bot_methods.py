@@ -145,3 +145,36 @@ def command_search_player(player_id):
     player_result.add_field(name='Ouro', value=gold, inline=True)
 
     return player_result
+
+def command_search_npc(npc_id):
+    search_command = f'SELECT * FROM npcs WHERE npc_id = {npc_id}'
+    
+    search_npc_result  = db_connection.execute_sqlite_select(search_command)
+
+    n_id = search_npc_result[0][0]
+    name = search_npc_result[0][1]
+    dex = search_npc_result[0][2]
+    strenght = search_npc_result[0][3]
+    cons = search_npc_result[0][4]
+    intelligence = search_npc_result[0][5]
+    wis = search_npc_result[0][6]
+    charisma = search_npc_result[0][7]
+    hp = search_npc_result[0][8]
+    gold = search_npc_result[0][9]
+
+
+    npc_result = discord.Embed(
+        title=f'ID do npc: {n_id}',
+        color= discord.Colour.random()
+    )
+    npc_result.add_field(name='Nome do npc', value=name, inline=False)
+    npc_result.add_field(name='Destreza', value=dex, inline=True)
+    npc_result.add_field(name='Força', value=strenght, inline=True)
+    npc_result.add_field(name='Constituição', value=cons, inline=True)
+    npc_result.add_field(name='Inteligência', value=intelligence, inline=True)
+    npc_result.add_field(name='Sabedoria', value=wis, inline=True)
+    npc_result.add_field(name='Carisma', value=charisma, inline=True)
+    npc_result.add_field(name='HP', value=hp, inline=True)
+    npc_result.add_field(name='Ouro', value=gold, inline=True)
+
+    return npc_result
