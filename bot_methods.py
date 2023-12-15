@@ -72,6 +72,47 @@ async def command_create_player(player_info):
 
         return help_player_msg
 
+async def command_create_npc(npc_info):
+    get_npc_id = 'SELECT npc_id, npc_name FROM npcs ORDER BY npc_id DESC LIMIT 1'
+    
+    all_npcs_info = npc_info.split()
+    string_to_dict = ''
+    
+    for i in all_npcs_info:
+        if i == ":":
+            string_to_dict += i
+        elif i == ",":
+            string_to_dict += i
+        elif ":" in i:
+            j = i.split(':')
+            string_to_dict += f"'{j[0]}':"
+        elif "," in i:
+            j = i.split(',')
+            string_to_dict += f"'{j[0]}',"
+        else:
+            string_to_dict += f"'{i}'"
+    string_to_dict_formatted = "{" + string_to_dict + "}"
+
+    try:
+        npc_info_dict = eval(string_to_dict_formatted)
+
+        insert_npc_db = db_connection.create_npc_db(npc_info_dict)
+        
+        if insert_npc_db == True:
+            npc_id = db_connection.execute_sqlite_select(get_npc_id)
+
+            return_message = f"NPC [{str(npc_id[0][1])}] criado com sucesso! Seu ID é: [{str(npc_id[0][0])}]"
+
+            return return_message
+        else:
+            return insert_npc_db
+    except Exception as e:
+        print(e)
+
+        help_npc_msg = help_methods.create_npc_help()
+
+        return help_npc_msg
+
 def command_search_player(player_id):
     search_command = f'SELECT * FROM players WHERE player_id = {player_id}'
     
