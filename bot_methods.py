@@ -72,6 +72,44 @@ async def command_create_player(player_info):
 
         return help_player_msg
 
+async def command_update_player(upd_info):    
+    all_upd_info = upd_info.split()
+    string_to_dict = ''
+    
+    for i in all_upd_info:
+        if i == ":":
+            string_to_dict += i
+        elif i == ",":
+            string_to_dict += i
+        elif ":" in i:
+            j = i.split(':')
+            string_to_dict += f"'{j[0]}':"
+        elif "," in i:
+            j = i.split(',')
+            string_to_dict += f"'{j[0]}',"
+        else:
+            string_to_dict += f"'{i}'"
+    string_to_dict_formatted = "{" + string_to_dict + "}"
+
+    try:
+        upd_dict = eval(string_to_dict_formatted)
+
+        update_player_db = db_connection.update_player_db(upd_dict)
+        
+        if update_player_db == True:
+
+            return_message = 'Personagem atualizado.'
+
+            return return_message
+        else:
+            return update_player_db
+    except Exception as e:
+        print(e)
+
+        help_player_msg = help_methods.update_player_help()
+
+        return help_player_msg
+
 async def command_create_npc(npc_info):
     get_npc_id = 'SELECT npc_id, npc_name FROM npcs ORDER BY npc_id DESC LIMIT 1'
     
