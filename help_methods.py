@@ -1,9 +1,10 @@
-# Não Iniciada
 def create_player_help():
     temporary_message = "Works"
     return temporary_message
 
-# Não Iniciada
+def update_player_help():
+    pass
+
 def create_npc_help():
     temporary_message = "Works"
     return temporary_message

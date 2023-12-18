@@ -50,6 +50,15 @@ async def search_player(ctx, *, content: bot_methods.command_search_player = Non
     
     await ctx.send(embed=content)
 
+@bot.command(name='uplayer')
+async def update_player(ctx, *, content: bot_methods.command_update_player = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
+
 @bot.command(name='cnpc')
 async def create_npc(ctx, *, content: bot_methods.command_create_npc = None):
     if bot_methods.help_methods.verify_bot_message(ctx) == None:

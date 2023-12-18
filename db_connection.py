@@ -108,6 +108,9 @@ def create_player_db(player_dict):
     else:
         return save_db
 
+def update_player_db(upd_dict):
+    pass
+
 def create_npc_db(npc_dict):
     missing_information = 'Estão faltando informações para criar seu NPC. Em caso de dúvidas utilize o comando: ?h npc'
     error_convert_int = 'Por favor, digite apenas números para os atributos.'
@@ -170,7 +173,6 @@ def create_npc_db(npc_dict):
         return True
     else:
         return save_db
-
 
 def execute_sqlite_commands(cmd):
     error_msg = "Houve um erro ao salvar no banco de dados."
