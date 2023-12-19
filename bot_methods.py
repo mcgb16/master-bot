@@ -33,90 +33,68 @@ Para rodar um dado, digite da seguinte forma o comando (variando o valor do dado
 
 async def command_create_player(player_info):
     get_player_id = 'SELECT player_id, player_name FROM players ORDER BY player_id DESC LIMIT 1'
+
+    player_info_dict = create_dict(player_info)
+
+    if player_info_dict == None:
+        help_message = help_methods.create_player_help()
+
+        return help_message
+
+    insert_player_db = db_connection.create_player_db(player_info_dict)
     
-    all_players_info = player_info.split()
-    string_to_dict = ''
-    
-    for i in all_players_info:
-        if i == ":":
-            string_to_dict += i
-        elif i == ",":
-            string_to_dict += i
-        elif ":" in i:
-            j = i.split(':')
-            string_to_dict += f"'{j[0]}':"
-        elif "," in i:
-            j = i.split(',')
-            string_to_dict += f"'{j[0]}',"
-        else:
-            string_to_dict += f"'{i}'"
-    string_to_dict_formatted = "{" + string_to_dict + "}"
+    if insert_player_db == True:
+        player_id = db_connection.execute_sqlite_select(get_player_id)
 
-    try:
-        player_info_dict = eval(string_to_dict_formatted)
+        return_message = f"Personagem [{str(player_id[0][1])}] criado com sucesso! Seu ID é: [{str(player_id[0][0])}]"
 
-        insert_player_db = db_connection.create_player_db(player_info_dict)
-        
-        if insert_player_db == True:
-            player_id = db_connection.execute_sqlite_select(get_player_id)
-
-            return_message = f"Personagem [{str(player_id[0][1])}] criado com sucesso! Seu ID é: [{str(player_id[0][0])}]"
-
-            return return_message
-        else:
-            return insert_player_db
-    except Exception as e:
-        print(e)
-
-        help_player_msg = help_methods.create_player_help()
-
-        return help_player_msg
+        return return_message
+    else:
+        return insert_player_db
 
 async def command_update_player(upd_info):    
-    all_upd_info = upd_info.split()
-    string_to_dict = ''
+    upd_player_dict = create_dict(upd_info)
+
+    if upd_player_dict == None:
+        help_message = help_methods.update_player_help()
+
+        return help_message
+
+    update_player_db = db_connection.update_player_db(upd_player_dict)
     
-    for i in all_upd_info:
-        if i == ":":
-            string_to_dict += i
-        elif i == ",":
-            string_to_dict += i
-        elif ":" in i:
-            j = i.split(':')
-            string_to_dict += f"'{j[0]}':"
-        elif "," in i:
-            j = i.split(',')
-            string_to_dict += f"'{j[0]}',"
-        else:
-            string_to_dict += f"'{i}'"
-    string_to_dict_formatted = "{" + string_to_dict + "}"
+    if update_player_db == True:
+        return_message = 'Personagem atualizado.'
 
-    try:
-        upd_dict = eval(string_to_dict_formatted)
-
-        update_player_db = db_connection.update_player_db(upd_dict)
-        
-        if update_player_db == True:
-
-            return_message = 'Personagem atualizado.'
-
-            return return_message
-        else:
-            return update_player_db
-    except Exception as e:
-        print(e)
-
-        help_player_msg = help_methods.update_player_help()
-
-        return help_player_msg
+        return return_message
+    else:
+        return update_player_db
 
 async def command_create_npc(npc_info):
     get_npc_id = 'SELECT npc_id, npc_name FROM npcs ORDER BY npc_id DESC LIMIT 1'
     
-    all_npcs_info = npc_info.split()
+    npc_info_dict = create_dict(npc_info)
+
+    if npc_info_dict == None:
+        help_message = help_methods.create_npc_help()
+
+        return help_message
+
+    insert_npc_db = db_connection.create_npc_db(npc_info_dict)
+    
+    if insert_npc_db == True:
+        npc_id = db_connection.execute_sqlite_select(get_npc_id)
+
+        return_message = f"NPC [{str(npc_id[0][1])}] criado com sucesso! Seu ID é: [{str(npc_id[0][0])}]"
+
+        return return_message
+    else:
+        return insert_npc_db
+
+def create_dict(str_dict):
+    all_info = str_dict.split()
     string_to_dict = ''
     
-    for i in all_npcs_info:
+    for i in all_info:
         if i == ":":
             string_to_dict += i
         elif i == ",":
@@ -132,24 +110,10 @@ async def command_create_npc(npc_info):
     string_to_dict_formatted = "{" + string_to_dict + "}"
 
     try:
-        npc_info_dict = eval(string_to_dict_formatted)
-
-        insert_npc_db = db_connection.create_npc_db(npc_info_dict)
-        
-        if insert_npc_db == True:
-            npc_id = db_connection.execute_sqlite_select(get_npc_id)
-
-            return_message = f"NPC [{str(npc_id[0][1])}] criado com sucesso! Seu ID é: [{str(npc_id[0][0])}]"
-
-            return return_message
-        else:
-            return insert_npc_db
-    except Exception as e:
-        print(e)
-
-        help_npc_msg = help_methods.create_npc_help()
-
-        return help_npc_msg
+        dict_created = eval(string_to_dict_formatted)
+        return dict_created
+    except:
+        return None
 
 def command_search_player(player_id):
     search_command = f'SELECT * FROM players WHERE player_id = {player_id}'
