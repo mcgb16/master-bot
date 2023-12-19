@@ -69,7 +69,6 @@ async def command_update_player(upd_info):
     else:
         return update_player_db
 
-
 async def command_create_npc(npc_info):
     get_npc_id = 'SELECT npc_id, npc_name FROM npcs ORDER BY npc_id DESC LIMIT 1'
     
@@ -90,7 +89,6 @@ async def command_create_npc(npc_info):
         return return_message
     else:
         return insert_npc_db
-
 
 def create_dict(str_dict):
     all_info = str_dict.split()
@@ -116,7 +114,6 @@ def create_dict(str_dict):
         return dict_created
     except:
         return None
-
 
 def command_search_player(player_id):
     search_command = f'SELECT * FROM players WHERE player_id = {player_id}'
