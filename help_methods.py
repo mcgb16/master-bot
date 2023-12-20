@@ -9,6 +9,9 @@ def create_npc_help():
     temporary_message = "Works"
     return temporary_message
 
+def update_npc_help():
+    pass
+
 def all_in_one_help():
     all_commands = {
         '?roll d{número}': 'Roda dado',

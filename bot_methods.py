@@ -90,6 +90,23 @@ async def command_create_npc(npc_info):
     else:
         return insert_npc_db
 
+async def command_update_npc(upd_info):
+    upd_npc_dict = create_dict(upd_info)
+
+    if upd_npc_dict == None:
+        help_message = help_methods.update_npc_help()
+
+        return help_message
+
+    update_npc_db = db_connection.update_npc_db(upd_npc_dict)
+    
+    if update_npc_db == True:
+        return_message = 'NPC atualizado.'
+
+        return return_message
+    else:
+        return update_npc_db
+
 def create_dict(str_dict):
     all_info = str_dict.split()
     string_to_dict = ''

@@ -77,4 +77,13 @@ async def search_npc(ctx, *, content: bot_methods.command_search_npc = None):
     
     await ctx.send(embed=content)
 
+@bot.command(name='unpc')
+async def update_npc(ctx, *, content: bot_methods.command_update_npc = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
+
 bot.run(extras.dsc_tkn)
