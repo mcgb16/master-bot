@@ -245,6 +245,80 @@ def create_npc_db(npc_dict):
     else:
         return save_db
 
+def update_npc_db(upd_dict):
+    error_convert_int = 'Por favor, digite apenas números para os atributos e ID.'
+    error_missing_id = 'Por favor, preciso saber qual o ID do NPC.'
+    update_npc = 'UPDATE npcs SET '
+    attr_to_update = []
+    npc_id = ''
+
+
+    for k, v in upd_dict.items():
+        if k.lower() == 'id':
+            npc_id = v
+    
+    if npc_id == '':
+        return error_missing_id
+    else:
+        try:
+            npc_id = int(npc_id)
+            for k, v in upd_dict.items():
+                if k.lower() == 'nome':
+                    name_upd = f"npc_name = '{v}'"
+                    attr_to_update.append(name_upd)
+                elif k.lower() == 'destreza':
+                    dexterity = int(v)
+                    dex_upd = f"dexterity = {dexterity}"
+                    attr_to_update.append(dex_upd)
+                elif k.lower() == 'força':
+                    strenght = int(v)
+                    str_upd = f"strenght = {strenght}"
+                    attr_to_update.append(str_upd)
+                elif k.lower() == 'constituição':
+                    constitution = int(v)
+                    cons_upd = f"constitution = {constitution}"
+                    attr_to_update.append(cons_upd)
+                elif k.lower() == 'inteligência':
+                    intelligence = int(v)
+                    int_upd = f"intelligence = {intelligence}"
+                    attr_to_update.append(int_upd)
+                elif k.lower() == 'sabedoria':
+                    wisdom = int(v)
+                    wis_upd = f"wisdom = {wisdom}"
+                    attr_to_update.append(wis_upd)
+                elif k.lower() == 'carisma':
+                    charisma = int(v)
+                    char_upd = f"charisma = {charisma}"
+                    attr_to_update.append(char_upd)
+                elif k.lower() == 'hp':
+                    hp = int(v)
+                    hp_upd = f"hp = {hp}"
+                    attr_to_update.append(hp_upd)
+                elif k.lower() == 'ouro':
+                    gold = int(v)
+                    gold_upd = f"gold = {gold}"
+                    attr_to_update.append(gold_upd)
+        except Exception as e:
+            print(e)
+            return error_convert_int
+        
+        update_npc_command = update_npc
+
+        for i,v in enumerate(attr_to_update):
+            if i == len(attr_to_update)- 1:
+                update_npc_command += v
+            else:
+                update_npc_command += v + ', '
+        
+        update_npc_command += f" WHERE npc_id = {npc_id}"
+
+        save_db = execute_sqlite_commands(update_npc_command)
+
+        if save_db == True:
+            return True
+        else:
+            return save_db
+
 def execute_sqlite_commands(cmd):
     error_msg = "Houve um erro ao salvar no banco de dados."
     
