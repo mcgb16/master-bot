@@ -1,5 +1,6 @@
 import sqlite3
 import extras
+import add_ons
 
 def create_tables():
     create_table_players = """
@@ -7,7 +8,7 @@ def create_tables():
         player_id INTEGER PRIMARY KEY AUTOINCREMENT,
         player_name VARCHAR(45) NOT NULL,
         dexterity INTEGER NOT NULL,
-        strenght INTEGER NOT NULL,
+        strength INTEGER NOT NULL,
         constitution INTEGER NOT NULL,
         intelligence INTEGER NOT NULL,
         wisdom INTEGER NOT NULL,
@@ -21,7 +22,7 @@ def create_tables():
         npc_id INTEGER PRIMARY KEY AUTOINCREMENT,
         npc_name VARCHAR(45) NOT NULL,
         dexterity INTEGER NOT NULL,
-        strenght INTEGER NOT NULL,
+        strength INTEGER NOT NULL,
         constitution INTEGER NOT NULL,
         intelligence INTEGER NOT NULL,
         wisdom INTEGER NOT NULL,
@@ -50,7 +51,7 @@ def create_player_db(player_dict):
     error_convert_int = 'Por favor, digite apenas números para os atributos.'
     name = ''
     dexterity = ''
-    strenght = ''
+    strength = ''
     constitution = ''
     intelligence = ''
     wisdom = ''
@@ -61,31 +62,31 @@ def create_player_db(player_dict):
 
     try: 
         for k, v in player_dict.items():
-            if k.lower() == 'nome':
+            if k.lower() in add_ons.name:
                 name = v
                 verify_cont += 1
-            elif k.lower() == 'destreza':
+            elif k.lower() in add_ons.dexterity:
                 dexterity = int(v)
                 verify_cont += 1
-            elif k.lower() == 'força':
-                strenght = int(v)
+            elif k.lower() in add_ons.strength:
+                strength = int(v)
                 verify_cont += 1
-            elif k.lower() == 'constituição':
+            elif k.lower() in add_ons.constitution:
                 constitution = int(v)
                 verify_cont += 1
-            elif k.lower() == 'inteligência':
+            elif k.lower() in add_ons.intelligence:
                 intelligence = int(v)
                 verify_cont += 1
-            elif k.lower() == 'sabedoria':
+            elif k.lower() in add_ons.wisdom:
                 wisdom = int(v)
                 verify_cont += 1
-            elif k.lower() == 'carisma':
+            elif k.lower() in add_ons.charisma:
                 charisma = int(v)
                 verify_cont += 1
-            elif k.lower() == 'hp':
+            elif k.lower() in add_ons.hp:
                 hp = int(v)
                 verify_cont += 1
-            elif k.lower() == 'ouro':
+            elif k.lower() in add_ons.gold:
                 gold = int(v)
     except Exception as e:
         print(e)
@@ -95,11 +96,11 @@ def create_player_db(player_dict):
         return missing_information
     elif gold == '':
         insert_player = f"""
-        INSERT INTO players (player_name, dexterity, strenght, constitution, intelligence, wisdom, charisma, hp) VALUES ('{name}', {dexterity}, {strenght}, {constitution}, {intelligence}, {wisdom}, {charisma}, {hp})
+        INSERT INTO players (player_name, dexterity, strength, constitution, intelligence, wisdom, charisma, hp) VALUES ('{name}', {dexterity}, {strength}, {constitution}, {intelligence}, {wisdom}, {charisma}, {hp})
         """
     else:
         insert_player = f"""
-        INSERT INTO players (player_name, dexterity, strenght, constitution, intelligence, wisdom, charisma, hp, gold) VALUES ('{name}', {dexterity}, {strenght}, {constitution}, {intelligence}, {wisdom}, {charisma}, {hp}, {gold})
+        INSERT INTO players (player_name, dexterity, strength, constitution, intelligence, wisdom, charisma, hp, gold) VALUES ('{name}', {dexterity}, {strength}, {constitution}, {intelligence}, {wisdom}, {charisma}, {hp}, {gold})
         """
     save_db = execute_sqlite_commands(insert_player)
     
@@ -126,38 +127,38 @@ def update_player_db(upd_dict):
         try:
             player_id = int(player_id)
             for k, v in upd_dict.items():
-                if k.lower() == 'nome':
+                if k.lower() in add_ons.name:
                     name_upd = f"player_name = '{v}'"
                     attr_to_update.append(name_upd)
-                elif k.lower() == 'destreza':
+                elif k.lower() in add_ons.dexterity:
                     dexterity = int(v)
                     dex_upd = f"dexterity = {dexterity}"
                     attr_to_update.append(dex_upd)
-                elif k.lower() == 'força':
-                    strenght = int(v)
-                    str_upd = f"strenght = {strenght}"
+                elif k.lower() in add_ons.strength:
+                    strength = int(v)
+                    str_upd = f"strength = {strength}"
                     attr_to_update.append(str_upd)
-                elif k.lower() == 'constituição':
+                elif k.lower() in add_ons.constitution:
                     constitution = int(v)
                     cons_upd = f"constitution = {constitution}"
                     attr_to_update.append(cons_upd)
-                elif k.lower() == 'inteligência':
+                elif k.lower() in add_ons.intelligence:
                     intelligence = int(v)
                     int_upd = f"intelligence = {intelligence}"
                     attr_to_update.append(int_upd)
-                elif k.lower() == 'sabedoria':
+                elif k.lower() in add_ons.wisdom:
                     wisdom = int(v)
                     wis_upd = f"wisdom = {wisdom}"
                     attr_to_update.append(wis_upd)
-                elif k.lower() == 'carisma':
+                elif k.lower() in add_ons.charisma:
                     charisma = int(v)
                     char_upd = f"charisma = {charisma}"
                     attr_to_update.append(char_upd)
-                elif k.lower() == 'hp':
+                elif k.lower() in add_ons.hp:
                     hp = int(v)
                     hp_upd = f"hp = {hp}"
                     attr_to_update.append(hp_upd)
-                elif k.lower() == 'ouro':
+                elif k.lower() in add_ons.gold:
                     gold = int(v)
                     gold_upd = f"gold = {gold}"
                     attr_to_update.append(gold_upd)
@@ -187,7 +188,7 @@ def create_npc_db(npc_dict):
     error_convert_int = 'Por favor, digite apenas números para os atributos.'
     name = ''
     dexterity = ''
-    strenght = ''
+    strength = ''
     constitution = ''
     intelligence = ''
     wisdom = ''
@@ -198,31 +199,31 @@ def create_npc_db(npc_dict):
 
     try: 
         for k, v in npc_dict.items():
-            if k.lower() == 'nome':
+            if k.lower() in add_ons.name:
                 name = v
                 verify_cont += 1
-            elif k.lower() == 'destreza':
+            elif k.lower() in add_ons.dexterity:
                 dexterity = int(v)
                 verify_cont += 1
-            elif k.lower() == 'força':
-                strenght = int(v)
+            elif k.lower() in add_ons.strength:
+                strength = int(v)
                 verify_cont += 1
-            elif k.lower() == 'constituição':
+            elif k.lower() in add_ons.constitution:
                 constitution = int(v)
                 verify_cont += 1
-            elif k.lower() == 'inteligência':
+            elif k.lower() in add_ons.intelligence:
                 intelligence = int(v)
                 verify_cont += 1
-            elif k.lower() == 'sabedoria':
+            elif k.lower() in add_ons.wisdom:
                 wisdom = int(v)
                 verify_cont += 1
-            elif k.lower() == 'carisma':
+            elif k.lower() in add_ons.charisma:
                 charisma = int(v)
                 verify_cont += 1
-            elif k.lower() == 'hp':
+            elif k.lower() in add_ons.hp:
                 hp = int(v)
                 verify_cont += 1
-            elif k.lower() == 'ouro':
+            elif k.lower() in add_ons.gold:
                 gold = int(v)
     except Exception as e:
         print(e)
@@ -232,11 +233,11 @@ def create_npc_db(npc_dict):
         return missing_information
     elif gold == '':
         insert_npc = f"""
-        INSERT INTO npcs (npc_name, dexterity, strenght, constitution, intelligence, wisdom, charisma, hp) VALUES ('{name}', {dexterity}, {strenght}, {constitution}, {intelligence}, {wisdom}, {charisma}, {hp})
+        INSERT INTO npcs (npc_name, dexterity, strength, constitution, intelligence, wisdom, charisma, hp) VALUES ('{name}', {dexterity}, {strength}, {constitution}, {intelligence}, {wisdom}, {charisma}, {hp})
         """
     else:
         insert_npc = f"""
-        INSERT INTO npcs (npc_name, dexterity, strenght, constitution, intelligence, wisdom, charisma, hp, gold) VALUES ('{name}', {dexterity}, {strenght}, {constitution}, {intelligence}, {wisdom}, {charisma}, {hp}, {gold})
+        INSERT INTO npcs (npc_name, dexterity, strength, constitution, intelligence, wisdom, charisma, hp, gold) VALUES ('{name}', {dexterity}, {strength}, {constitution}, {intelligence}, {wisdom}, {charisma}, {hp}, {gold})
         """
     save_db = execute_sqlite_commands(insert_npc)
     
@@ -263,38 +264,38 @@ def update_npc_db(upd_dict):
         try:
             npc_id = int(npc_id)
             for k, v in upd_dict.items():
-                if k.lower() == 'nome':
+                if k.lower() in add_ons.name:
                     name_upd = f"npc_name = '{v}'"
                     attr_to_update.append(name_upd)
-                elif k.lower() == 'destreza':
+                elif k.lower() in add_ons.dexterity:
                     dexterity = int(v)
                     dex_upd = f"dexterity = {dexterity}"
                     attr_to_update.append(dex_upd)
-                elif k.lower() == 'força':
-                    strenght = int(v)
-                    str_upd = f"strenght = {strenght}"
+                elif k.lower() in add_ons.strength:
+                    strength = int(v)
+                    str_upd = f"strength = {strength}"
                     attr_to_update.append(str_upd)
-                elif k.lower() == 'constituição':
+                elif k.lower() in add_ons.constitution:
                     constitution = int(v)
                     cons_upd = f"constitution = {constitution}"
                     attr_to_update.append(cons_upd)
-                elif k.lower() == 'inteligência':
+                elif k.lower() in add_ons.intelligence:
                     intelligence = int(v)
                     int_upd = f"intelligence = {intelligence}"
                     attr_to_update.append(int_upd)
-                elif k.lower() == 'sabedoria':
+                elif k.lower() in add_ons.wisdom:
                     wisdom = int(v)
                     wis_upd = f"wisdom = {wisdom}"
                     attr_to_update.append(wis_upd)
-                elif k.lower() == 'carisma':
+                elif k.lower() in add_ons.charisma:
                     charisma = int(v)
                     char_upd = f"charisma = {charisma}"
                     attr_to_update.append(char_upd)
-                elif k.lower() == 'hp':
+                elif k.lower() in add_ons.hp:
                     hp = int(v)
                     hp_upd = f"hp = {hp}"
                     attr_to_update.append(hp_upd)
-                elif k.lower() == 'ouro':
+                elif k.lower() in add_ons.gold:
                     gold = int(v)
                     gold_upd = f"gold = {gold}"
                     attr_to_update.append(gold_upd)
