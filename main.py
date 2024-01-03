@@ -12,7 +12,7 @@ async def roll_dice(ctx, *, content: bot_methods.command_roll_dice = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    await ctx.send(embed=content)
 
 @bot.command(name='h')
 async def bot_help(ctx,*, content: bot_methods.command_help = None):
