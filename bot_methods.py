@@ -15,20 +15,43 @@ async def command_help(arg):
         help_all_in_one = help_methods.all_in_one_help()
         return help_all_in_one
 
-async def command_roll_dice(dice):
-    wrong_command = """
-Para rodar um dado, digite da seguinte forma o comando (variando o valor do dado que deseja rodar):
-?roll d20
-"""
+def command_roll_dice(dice):
+    dice_list = dice.split('d')
+
+    dice_return = discord.Embed(
+        color= discord.Colour.random()
+    )
     
-    if dice[0] != 'd':
-        return wrong_command
+    if dice_list[0] != '':
+        try:
+            number_of_dices = int(dice_list[0])
+            dice_number = int(dice_list[1])
+
+            dice_total = 0
+
+            for i in range(number_of_dices):
+                dice_result = randint(1,int(dice_number))
+                dice_total += dice_result
+                dice_return.add_field(name=f'Dado {i+1}', value=dice_result, inline=False)
+            
+            dice_return.title = f'Total: {dice_total}'
+            
+            return dice_return
+        except:
+            wrong_command = help_methods.roll_dice_help()
+            return wrong_command
     else:
         try:
-            dice_number = dice.replace('d', '')
+            dice_number = int(dice_list[1])
             dice_result = randint(1,int(dice_number))
-            return dice_result
+
+            dice_return.add_field(name=f'Dado 1', value=dice_result)
+
+            dice_return.title = f'Total: {dice_total}'
+
+            return dice_return
         except:
+            wrong_command = help_methods.roll_dice_help()
             return wrong_command
 
 async def command_create_player(player_info):
