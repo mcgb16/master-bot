@@ -31,16 +31,42 @@ def create_tables():
         gold INTEGER DEFAULT 0
     )
     """
-    return create_table_players, create_table_npcs
+    create_table_items = """
+    CREATE TABLE IF NOT EXISTS items (
+        item_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        item_name VARCHAR(45) NOT NULL,
+        id_npc INTEGER,
+        id_player INTEGER,
+        FOREIGN KEY (id_npc) REFERENCES npcs (npc_id),
+        FOREIGN KEY (id_player) REFERENCES players (player_id)
+    )
+    """
+    create_table_weapons = """
+    CREATE TABLE IF NOT EXISTS weapons (
+        weapon_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        weapon_name VARCHAR(45) NOT NULL,
+        damage integer NOT NULL,
+        damage_type VARCHAR (45),
+        id_npc INTEGER,
+        id_player INTEGER,
+        FOREIGN KEY (id_npc) REFERENCES npcs (npc_id),
+        FOREIGN KEY (id_player) REFERENCES players (player_id)
+    )
+    """
+    return create_table_players, create_table_npcs, create_table_items, create_table_weapons
 
 with sqlite3.connect(extras.sqlite_db) as conn:
+    activate_fk = "PRAGMA foreign_keys = ON;"
     cursor = conn.cursor()
 
-    create_table_players, create_table_npcs = create_tables()
+    create_table_players, create_table_npcs, create_table_items, create_table_weapons = create_tables()
 
     try:
+        cursor.execute(activate_fk)
         cursor.execute(create_table_players)
         cursor.execute(create_table_npcs)
+        cursor.execute(create_table_items)
+        cursor.execute(create_table_weapons)
         conn.commit()
     except sqlite3.Error as e:
         print("Erro SQLite:", e)
@@ -320,9 +346,65 @@ def update_npc_db(upd_dict):
         else:
             return save_db
 
+def create_item_db(item_dict):
+    missing_information = 'Estão faltando informações para criar seu Item. Em caso de dúvidas utilize o comando: ?h item'
+    name = ''
+    verify_cont = 0
+
+    for k, v in item_dict.items():
+        if k.lower() in add_ons.name:
+            name = v
+            verify_cont += 1            
+
+    if verify_cont != 1:
+        return missing_information
+    else:
+        insert_item = f"""
+        INSERT INTO items (item_name) VALUES ('{name}')
+        """
+
+    save_db = execute_sqlite_commands(insert_item)
+
+    if save_db == True:
+        return True
+    else:
+        return save_db
+
+def create_weapon_db(weapon_dict):
+    missing_information = 'Estão faltando informações para criar sua arma. Em caso de dúvidas utilize o comando: ?h weapon'
+    error_convert_int = 'Por favor, digite apenas números para o dano.'
+    name = ''
+    dmg = ''
+    verify_cont = 0
+    try:
+        for k, v in weapon_dict.items():
+            if k.lower() in add_ons.name:
+                name = v
+                verify_cont += 1
+            elif k.lower() in add_ons.dmg:
+                dmh = int(v)
+                verify_cont += 1
+    except Exception as e:
+        print(e)
+        return error_convert_int
+
+    if verify_cont != 2:
+        return missing_information
+    else:
+        insert_weapon = f"""
+        INSERT INTO weapons (weapon_name, damage) VALUES ('{name}', '{dmg}')
+        """
+
+    save_db = execute_sqlite_commands(insert_weapon)
+
+    if save_db == True:
+        return True
+    else:
+        return save_db
+
 def execute_sqlite_commands(cmd):
     error_msg = "Houve um erro ao salvar no banco de dados."
-    
+
     with sqlite3.connect(extras.sqlite_db) as conn:
         cursor = conn.cursor()
 
