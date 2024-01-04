@@ -130,8 +130,51 @@ async def command_update_npc(upd_info):
     else:
         return update_npc_db
 
+async def command_create_item(item_info):
+    get_item_id = 'SELECT item_id, item_name FROM items ORDER BY item_id DESC LIMIT 1'
+
+    item_info_dict = create_dict(item_info)
+
+    if item_info_dict == None:
+        help_message = help_methods.create_item_help()
+
+        return help_message
+    
+    insert_item_db = db_connection.create_item_db(item_info_dict)
+    
+    if insert_item_db == True:
+        item_id = db_connection.execute_sqlite_select(get_item_id)
+
+        return_message = f"Item [{str(item_id[0][1])}] criado com sucesso! Seu ID é: [{str(item_id[0][0])}]"
+
+        return return_message
+    else:
+        return insert_item_db
+
+async def command_create_weapon(weapon_info):
+    get_weapon_id = 'SELECT weapon_id, weapon_name FROM weapons ORDER BY weapon_id DESC LIMIT 1'
+
+    weapon_info_dict = create_dict(weapon_info)
+
+    if weapon_info_dict == None:
+        help_message = help_methods.create_weapon_help()
+
+        return help_message
+    
+    insert_weapon_db = db_connection.create_weapon_db(weapon_info_dict)
+    
+    if insert_weapon_db == True:
+        weapon_id = db_connection.execute_sqlite_select(get_weapon_id)
+
+        return_message = f"Arma [{str(weapon_id[0][1])}] criada com sucesso! Seu ID é: [{str(weapon_id[0][0])}]"
+
+        return return_message
+    else:
+        return insert_weapon_db
+
 def create_dict(str_dict):
     all_info = str_dict.split()
+    print(all_info)
     string_to_dict = ''
     
     for i in all_info:

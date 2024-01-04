@@ -5,6 +5,8 @@ intents = bot_methods.discord.Intents.default()
 intents.message_content = True
 bot = bot_methods.commands.Bot(command_prefix='?', intents=intents)
 
+# Comando Dado
+
 @bot.command(name='roll')
 async def roll_dice(ctx, *, content: bot_methods.command_roll_dice = None):
     if bot_methods.help_methods.verify_bot_message(ctx) == None:
@@ -13,6 +15,8 @@ async def roll_dice(ctx, *, content: bot_methods.command_roll_dice = None):
         return
     
     await ctx.send(embed=content)
+
+# Comando Help
 
 @bot.command(name='h')
 async def bot_help(ctx,*, content: bot_methods.command_help = None):
@@ -31,6 +35,8 @@ async def bot_help(ctx,*, content: bot_methods.command_help = None):
             await ctx.send(success_message)
     except bot_methods.discord.Forbidden as e:
         await ctx.send(error_message)
+
+# Comandos Player
 
 @bot.command(name='cplayer')
 async def create_player(ctx, *, content: bot_methods.command_create_player = None):
@@ -59,6 +65,8 @@ async def update_player(ctx, *, content: bot_methods.command_update_player = Non
     
     await ctx.send(await content)
 
+# Comandos NPC
+
 @bot.command(name='cnpc')
 async def create_npc(ctx, *, content: bot_methods.command_create_npc = None):
     if bot_methods.help_methods.verify_bot_message(ctx) == None:
@@ -79,6 +87,28 @@ async def search_npc(ctx, *, content: bot_methods.command_search_npc = None):
 
 @bot.command(name='unpc')
 async def update_npc(ctx, *, content: bot_methods.command_update_npc = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
+
+# Comandos Itens
+
+@bot.command(name='citem')
+async def create_item(ctx, *, content: bot_methods.command_create_item = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
+
+# Comandos Armas
+
+@bot.command(name='cweapon')
+async def create_weapon(ctx, *, content: bot_methods.command_create_weapon = None):
     if bot_methods.help_methods.verify_bot_message(ctx) == None:
         return
     elif bot_methods.help_methods.verify_none(content) == None:
