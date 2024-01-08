@@ -105,10 +105,46 @@ async def create_item(ctx, *, content: bot_methods.command_create_item = None):
     
     await ctx.send(await content)
 
+@bot.command(name='sitem')
+async def search_item(ctx, *, content: bot_methods.command_search_item = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(embed=content)
+
+@bot.command(name='uitem')
+async def update_item(ctx, *, content: bot_methods.command_update_item = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
+
 # Comandos Armas
 
 @bot.command(name='cweapon')
 async def create_weapon(ctx, *, content: bot_methods.command_create_weapon = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
+
+@bot.command(name='sweapon')
+async def search_weapon(ctx, *, content: bot_methods.command_search_weapon = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(embed=content)
+
+@bot.command(name='uweapon')
+async def update_weapon(ctx, *, content: bot_methods.command_update_weapon = None):
     if bot_methods.help_methods.verify_bot_message(ctx) == None:
         return
     elif bot_methods.help_methods.verify_none(content) == None:
