@@ -174,7 +174,6 @@ async def command_create_weapon(weapon_info):
 
 def create_dict(str_dict):
     all_info = str_dict.split()
-    print(all_info)
     string_to_dict = ''
     
     for i in all_info:
@@ -263,3 +262,95 @@ def command_search_npc(npc_id):
     npc_result.add_field(name='Ouro', value=gold, inline=True)
 
     return npc_result
+
+def command_search_item(item_id):
+    search_command = f'SELECT * FROM items WHERE item_id = {item_id}'
+    
+    search_item_result  = db_connection.execute_sqlite_select(search_command)
+
+    i_id = search_item_result[0][0]
+    name = search_item_result[0][1]
+    id_npc = search_item_result[0][2]
+    id_player = search_item_result[0][3]
+
+    item_result = discord.Embed(
+        title=f'ID do item: {i_id}',
+        color= discord.Colour.random()
+    )
+    item_result.add_field(name='Nome do Item', value=name, inline=False)
+    if id_npc:
+        item_result.add_field(name='Npc', value=id_npc, inline=False)
+    else:
+        item_result.add_field(name='Npc', value='Nenhum', inline=False)
+
+    if id_player:
+        item_result.add_field(name='Player', value=id_player, inline=False)
+    else:
+        item_result.add_field(name='Player', value='Nenhum', inline=False)
+
+    return item_result
+
+async def command_update_item(upd_info):
+    upd_item_dict = create_dict(upd_info)
+
+    if upd_item_dict == None:
+        help_message = help_methods.update_item_help()
+
+        return help_message
+
+    update_item_db = db_connection.update_item_db(upd_item_dict)
+    
+    if update_item_db == True:
+        return_message = 'Item atualizado.'
+
+        return return_message
+    else:
+        return update_item_db
+    
+def command_search_weapon(weapon_id):
+    search_command = f'SELECT * FROM weapons WHERE weapon_id = {weapon_id}'
+    
+    search_weapon_result  = db_connection.execute_sqlite_select(search_command)
+
+    w_id = search_weapon_result[0][0]
+    name = search_weapon_result[0][1]
+    dmg = search_weapon_result[0][2]
+    dmg_type = search_weapon_result[0][3]
+    id_npc = search_weapon_result[0][4]
+    id_player = search_weapon_result[0][5]
+
+    weapon_result = discord.Embed(
+        title=f'ID da Arma: {w_id}',
+        color= discord.Colour.random()
+    )
+    weapon_result.add_field(name='Nome da Arma', value=name, inline=False)
+    weapon_result.add_field(name='Dano', value=dmg, inline=True)
+    weapon_result.add_field(name='Tipo de Dano', value=dmg_type, inline=True)
+    if id_npc:
+        weapon_result.add_field(name='Npc', value=id_npc, inline=False)
+    else:
+        weapon_result.add_field(name='Npc', value='Nenhum', inline=False)
+
+    if id_player:
+        weapon_result.add_field(name='Player', value=id_player, inline=False)
+    else:
+        weapon_result.add_field(name='Player', value='Nenhum', inline=False)
+
+    return weapon_result
+
+async def command_update_weapon(upd_info):
+    upd_weapon_dict = create_dict(upd_info)
+
+    if upd_weapon_dict == None:
+        help_message = help_methods.update_weapon_help()
+
+        return help_message
+
+    update_weapon_db = db_connection.update_weapon_db(upd_weapon_dict)
+    
+    if update_weapon_db == True:
+        return_message = 'Arma atualizado.'
+
+        return return_message
+    else:
+        return update_weapon_db

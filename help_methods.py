@@ -15,7 +15,13 @@ def update_npc_help():
 def create_item_help():
     pass
 
+def update_item_help():
+    pass
+
 def create_weapon_help():
+    pass
+
+def update_weapon_help():
     pass
 
 def roll_dice_help():

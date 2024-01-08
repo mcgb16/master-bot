@@ -46,7 +46,7 @@ def create_tables():
         weapon_id INTEGER PRIMARY KEY AUTOINCREMENT,
         weapon_name VARCHAR(45) NOT NULL,
         damage integer NOT NULL,
-        damage_type VARCHAR (45),
+        damage_type VARCHAR (45) NOT NULL,
         id_npc INTEGER,
         id_player INTEGER,
         FOREIGN KEY (id_npc) REFERENCES npcs (npc_id),
@@ -370,11 +370,54 @@ def create_item_db(item_dict):
     else:
         return save_db
 
+def update_item_db(upd_dict):
+    error_convert_int = 'Por favor, digite apenas números para o ID.'
+    error_missing_id = 'Por favor, preciso saber qual o ID do Item.'
+    update_item = 'UPDATE items SET '
+    attr_to_update = []
+    item_id = ''
+
+
+    for k, v in upd_dict.items():
+        if k.lower() == 'id':
+            item_id = v
+    
+    if item_id == '':
+        return error_missing_id
+    else:
+        try:
+            item_id = int(item_id)
+            for k, v in upd_dict.items():
+                if k.lower() in add_ons.name:
+                    name_upd = f"item_name = '{v}'"
+                    attr_to_update.append(name_upd)
+        except Exception as e:
+            print(e)
+            return error_convert_int
+        
+        update_item_command = update_item
+
+        for i,v in enumerate(attr_to_update):
+            if i == len(attr_to_update)- 1:
+                update_item_command += v
+            else:
+                update_item_command += v + ', '
+        
+        update_item_command += f" WHERE item_id = {item_id}"
+
+        save_db = execute_sqlite_commands(update_item_command)
+
+        if save_db == True:
+            return True
+        else:
+            return save_db
+
 def create_weapon_db(weapon_dict):
     missing_information = 'Estão faltando informações para criar sua arma. Em caso de dúvidas utilize o comando: ?h weapon'
     error_convert_int = 'Por favor, digite apenas números para o dano.'
     name = ''
     dmg = ''
+    dmg_type = ''
     verify_cont = 0
     try:
         for k, v in weapon_dict.items():
@@ -382,17 +425,20 @@ def create_weapon_db(weapon_dict):
                 name = v
                 verify_cont += 1
             elif k.lower() in add_ons.dmg:
-                dmh = int(v)
+                dmg = int(v)
+                verify_cont += 1
+            elif k.lower() in add_ons.dmg_type:
+                dmg_type = v
                 verify_cont += 1
     except Exception as e:
         print(e)
         return error_convert_int
 
-    if verify_cont != 2:
+    if verify_cont != 3:
         return missing_information
     else:
         insert_weapon = f"""
-        INSERT INTO weapons (weapon_name, damage) VALUES ('{name}', '{dmg}')
+        INSERT INTO weapons (weapon_name, damage, damage_type) VALUES ('{name}', '{dmg}', '{dmg_type}')
         """
 
     save_db = execute_sqlite_commands(insert_weapon)
@@ -401,6 +447,55 @@ def create_weapon_db(weapon_dict):
         return True
     else:
         return save_db
+
+def update_weapon_db(upd_dict):
+    error_convert_int = 'Por favor, digite apenas números para o dano e ID.'
+    error_missing_id = 'Por favor, preciso saber qual o ID da Arma.'
+    update_weapon = 'UPDATE weapons SET '
+    attr_to_update = []
+    weapon_id = ''
+
+
+    for k, v in upd_dict.items():
+        if k.lower() == 'id':
+            weapon_id = v
+    
+    if weapon_id == '':
+        return error_missing_id
+    else:
+        try:
+            weapon_id = int(weapon_id)
+            for k, v in upd_dict.items():
+                if k.lower() in add_ons.name:
+                    name_upd = f"weapon_name = '{v}'"
+                    attr_to_update.append(name_upd)
+                elif k.lower() in add_ons.dmg:
+                    dmg = int(v)
+                    dmg_upd = f"damage = '{dmg}'"
+                    attr_to_update.append(dmg_upd)
+                elif k.lower() in add_ons.dmg_type:
+                    dmg_type_upd = f"damage_type = '{v}'"
+                    attr_to_update.append(dmg_type_upd)
+        except Exception as e:
+            print(e)
+            return error_convert_int
+        
+        update_weapon_command = update_weapon
+
+        for i,v in enumerate(attr_to_update):
+            if i == len(attr_to_update)- 1:
+                update_weapon_command += v
+            else:
+                update_weapon_command += v + ', '
+        
+        update_weapon_command += f" WHERE weapon_id = {weapon_id}"
+
+        save_db = execute_sqlite_commands(update_weapon_command)
+
+        if save_db == True:
+            return True
+        else:
+            return save_db
 
 def execute_sqlite_commands(cmd):
     error_msg = "Houve um erro ao salvar no banco de dados."
