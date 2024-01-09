@@ -123,6 +123,15 @@ async def update_item(ctx, *, content: bot_methods.command_update_item = None):
     
     await ctx.send(await content)
 
+@bot.command(name='bitem')
+async def bond_item(ctx, *, content: bot_methods.command_bond_item = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
+
 # Comandos Armas
 
 @bot.command(name='cweapon')
@@ -145,6 +154,15 @@ async def search_weapon(ctx, *, content: bot_methods.command_search_weapon = Non
 
 @bot.command(name='uweapon')
 async def update_weapon(ctx, *, content: bot_methods.command_update_weapon = None):
+    if bot_methods.help_methods.verify_bot_message(ctx) == None:
+        return
+    elif bot_methods.help_methods.verify_none(content) == None:
+        return
+    
+    await ctx.send(await content)
+
+@bot.command(name='bweapon')
+async def bond_weapon(ctx, *, content: bot_methods.command_bond_weapon = None):
     if bot_methods.help_methods.verify_bot_message(ctx) == None:
         return
     elif bot_methods.help_methods.verify_none(content) == None:

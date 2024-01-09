@@ -3,6 +3,7 @@ from discord.ext import commands
 from random import randint
 import help_methods
 import db_connection
+import add_ons
 
 async def command_help(arg):
     if arg == 'player':
@@ -354,3 +355,105 @@ async def command_update_weapon(upd_info):
         return return_message
     else:
         return update_weapon_db
+    
+async def command_bond_item(bond_info):
+    bond_dict = create_dict(bond_info)
+
+    if bond_dict == None:
+        help_message = help_methods.bond_item_help()
+        return help_message
+    
+    error_missing_id = 'Eu preciso saber tanto o ID do item quanto o ID do player ou npc que irá recebê-lo, por gentileza.'
+    error_convert_int = 'Por favor, digite apenas números para os IDs.'
+    bond_command = 'UPDATE items SET '
+    success_message = 'Vinculação efetuada com sucesso.'
+    item_id = ''
+    npc_id = ''
+    player_id = ''
+    verify_cont = 0
+    update_command_list = []
+
+    try:
+        for k,v in bond_dict.items():
+            if k in add_ons.id_values:
+                item_id = int(v)
+            elif k in add_ons.player:
+                player_id = int(v)
+                verify_cont += 1
+                update_command_list.append(f'id_player = {player_id}')
+            elif k in add_ons.npc:
+                npc_id = int(v)
+                verify_cont += 1
+                update_command_list.append(f'id_npc = {npc_id}')
+        
+        if item_id == '' or verify_cont == 0:        
+            return error_missing_id
+        else:
+            for i,v in enumerate(update_command_list):
+                if i == (len(update_command_list) - 1):
+                    bond_command += v
+                else:
+                    bond_command += v + ', '
+                
+            bond_command += f' WHERE item_id = {item_id}'
+
+            save_on_db = db_connection.execute_sqlite_commands(bond_command)
+
+            if save_on_db:
+                return success_message
+            else:
+                return save_on_db
+    except Exception as e:
+        print(e)
+        return error_convert_int
+
+async def command_bond_weapon(bond_info):
+    bond_dict = create_dict(bond_info)
+
+    if bond_dict == None:
+        help_message = help_methods.bond_weapon_help()
+        return help_message
+    
+    error_missing_id = 'Eu preciso saber tanto o ID do weapon quanto o ID do player ou npc que irá recebê-lo, por gentileza.'
+    error_convert_int = 'Por favor, digite apenas números para os IDs.'
+    bond_command = 'UPDATE weapons SET '
+    success_message = 'Vinculação efetuada com sucesso.'
+    weapon_id = ''
+    npc_id = ''
+    player_id = ''
+    verify_cont = 0
+    update_command_list = []
+
+    try:
+        for k,v in bond_dict.items():
+            if k in add_ons.id_values:
+                weapon_id = int(v)
+            elif k in add_ons.player:
+                player_id = int(v)
+                verify_cont += 1
+                update_command_list.append(f'id_player = {player_id}')
+            elif k in add_ons.npc:
+                npc_id = int(v)
+                verify_cont += 1
+                update_command_list.append(f'id_npc = {npc_id}')
+        
+        if weapon_id == '' or verify_cont == 0:        
+            return error_missing_id
+        else:
+            for i,v in enumerate(update_command_list):
+                if i == (len(update_command_list) - 1):
+                    bond_command += v
+                else:
+                    bond_command += v + ', '
+                
+            bond_command += f' WHERE weapon_id = {weapon_id}'
+
+            save_on_db = db_connection.execute_sqlite_commands(bond_command)
+
+            if save_on_db:
+                return success_message
+            else:
+                return save_on_db
+    except Exception as e:
+        print(e)
+        return error_convert_int

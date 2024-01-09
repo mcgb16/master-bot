@@ -54,3 +54,9 @@ def verify_bot_message(ctx):
         return
     else:
         return True
+
+def bond_item_help():
+    pass
+
+def bond_weapon_help():
+    pass
