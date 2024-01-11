@@ -2,6 +2,8 @@ import sqlite3
 import extras
 import add_ons
 
+# Métodos iniciais
+
 def create_tables():
     create_table_players = """
     CREATE TABLE IF NOT EXISTS players (
@@ -71,6 +73,8 @@ with sqlite3.connect(extras.sqlite_db) as conn:
     except sqlite3.Error as e:
         print("Erro SQLite:", e)
         conn.rollback()
+
+# Player
 
 def create_player_db(player_dict):
     missing_information = 'Estão faltando informações para criar seu personagem. Em caso de dúvidas utilize o comando: ?h player'
@@ -209,6 +213,8 @@ def update_player_db(upd_dict):
         else:
             return save_db
 
+# NPC
+
 def create_npc_db(npc_dict):
     missing_information = 'Estão faltando informações para criar seu NPC. Em caso de dúvidas utilize o comando: ?h npc'
     error_convert_int = 'Por favor, digite apenas números para os atributos.'
@@ -346,6 +352,8 @@ def update_npc_db(upd_dict):
         else:
             return save_db
 
+# Item
+
 def create_item_db(item_dict):
     missing_information = 'Estão faltando informações para criar seu Item. Em caso de dúvidas utilize o comando: ?h item'
     name = ''
@@ -411,6 +419,8 @@ def update_item_db(upd_dict):
             return True
         else:
             return save_db
+
+# Arma
 
 def create_weapon_db(weapon_dict):
     missing_information = 'Estão faltando informações para criar sua arma. Em caso de dúvidas utilize o comando: ?h weapon'
@@ -496,6 +506,8 @@ def update_weapon_db(upd_dict):
             return True
         else:
             return save_db
+
+# Métodos Gerais
 
 def execute_sqlite_commands(cmd):
     error_msg = "Houve um erro ao salvar no banco de dados."
