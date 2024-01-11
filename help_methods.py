@@ -1,3 +1,15 @@
+def verify_none(content):
+    if content == None:
+        return
+    else:
+        return True
+
+def verify_bot_message(ctx):
+    if ctx.author.bot:
+        return
+    else:
+        return True
+
 def create_player_help():
     temporary_message = "Works"
     return temporary_message
@@ -42,18 +54,6 @@ def all_in_one_help():
     help_command_response += final_phrase
     
     return help_command_response
-
-def verify_none(content):
-    if content == None:
-        return
-    else:
-        return True
-
-def verify_bot_message(ctx):
-    if ctx.author.bot:
-        return
-    else:
-        return True
 
 def bond_item_help():
     pass

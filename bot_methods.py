@@ -5,16 +5,7 @@ import help_methods
 import db_connection
 import add_ons
 
-async def command_help(arg):
-    if arg == 'player':
-        player_creation = help_methods.create_player_help()
-        return player_creation
-    elif arg == 'npc':
-        npc_creation = help_methods.create_npc_help()
-        return npc_creation
-    elif arg == None:
-        help_all_in_one = help_methods.all_in_one_help()
-        return help_all_in_one
+# Dado
 
 def command_roll_dice(dice):
     dice_list = dice.split('d')
@@ -55,6 +46,21 @@ def command_roll_dice(dice):
             wrong_command = help_methods.roll_dice_help()
             return wrong_command
 
+# Help
+
+async def command_help(arg):
+    if arg == 'player':
+        player_creation = help_methods.create_player_help()
+        return player_creation
+    elif arg == 'npc':
+        npc_creation = help_methods.create_npc_help()
+        return npc_creation
+    elif arg == None:
+        help_all_in_one = help_methods.all_in_one_help()
+        return help_all_in_one
+
+# Player
+
 async def command_create_player(player_info):
     get_player_id = 'SELECT player_id, player_name FROM players ORDER BY player_id DESC LIMIT 1'
 
@@ -93,6 +99,41 @@ async def command_update_player(upd_info):
     else:
         return update_player_db
 
+def command_search_player(player_id):
+    search_command = f'SELECT * FROM players WHERE player_id = {player_id}'
+    
+    search_player_result  = db_connection.execute_sqlite_select(search_command)
+
+    p_id = search_player_result[0][0]
+    name = search_player_result[0][1]
+    dex = search_player_result[0][2]
+    strenght = search_player_result[0][3]
+    cons = search_player_result[0][4]
+    intelligence = search_player_result[0][5]
+    wis = search_player_result[0][6]
+    charisma = search_player_result[0][7]
+    hp = search_player_result[0][8]
+    gold = search_player_result[0][9]
+
+
+    player_result = discord.Embed(
+        title=f'ID do Player: {p_id}',
+        color= discord.Colour.random()
+    )
+    player_result.add_field(name='Nome do Player', value=name, inline=False)
+    player_result.add_field(name='Destreza', value=dex, inline=True)
+    player_result.add_field(name='Força', value=strenght, inline=True)
+    player_result.add_field(name='Constituição', value=cons, inline=True)
+    player_result.add_field(name='Inteligência', value=intelligence, inline=True)
+    player_result.add_field(name='Sabedoria', value=wis, inline=True)
+    player_result.add_field(name='Carisma', value=charisma, inline=True)
+    player_result.add_field(name='HP', value=hp, inline=True)
+    player_result.add_field(name='Ouro', value=gold, inline=True)
+
+    return player_result
+
+# NPC
+
 async def command_create_npc(npc_info):
     get_npc_id = 'SELECT npc_id, npc_name FROM npcs ORDER BY npc_id DESC LIMIT 1'
     
@@ -130,107 +171,7 @@ async def command_update_npc(upd_info):
         return return_message
     else:
         return update_npc_db
-
-async def command_create_item(item_info):
-    get_item_id = 'SELECT item_id, item_name FROM items ORDER BY item_id DESC LIMIT 1'
-
-    item_info_dict = create_dict(item_info)
-
-    if item_info_dict == None:
-        help_message = help_methods.create_item_help()
-
-        return help_message
     
-    insert_item_db = db_connection.create_item_db(item_info_dict)
-    
-    if insert_item_db == True:
-        item_id = db_connection.execute_sqlite_select(get_item_id)
-
-        return_message = f"Item [{str(item_id[0][1])}] criado com sucesso! Seu ID é: [{str(item_id[0][0])}]"
-
-        return return_message
-    else:
-        return insert_item_db
-
-async def command_create_weapon(weapon_info):
-    get_weapon_id = 'SELECT weapon_id, weapon_name FROM weapons ORDER BY weapon_id DESC LIMIT 1'
-
-    weapon_info_dict = create_dict(weapon_info)
-
-    if weapon_info_dict == None:
-        help_message = help_methods.create_weapon_help()
-
-        return help_message
-    
-    insert_weapon_db = db_connection.create_weapon_db(weapon_info_dict)
-    
-    if insert_weapon_db == True:
-        weapon_id = db_connection.execute_sqlite_select(get_weapon_id)
-
-        return_message = f"Arma [{str(weapon_id[0][1])}] criada com sucesso! Seu ID é: [{str(weapon_id[0][0])}]"
-
-        return return_message
-    else:
-        return insert_weapon_db
-
-def create_dict(str_dict):
-    all_info = str_dict.split()
-    string_to_dict = ''
-    
-    for i in all_info:
-        if i == ":":
-            string_to_dict += i
-        elif i == ",":
-            string_to_dict += i
-        elif ":" in i:
-            j = i.split(':')
-            string_to_dict += f"'{j[0]}':"
-        elif "," in i:
-            j = i.split(',')
-            string_to_dict += f"'{j[0]}',"
-        else:
-            string_to_dict += f"'{i}'"
-    string_to_dict_formatted = "{" + string_to_dict + "}"
-
-    try:
-        dict_created = eval(string_to_dict_formatted)
-        return dict_created
-    except:
-        return None
-
-def command_search_player(player_id):
-    search_command = f'SELECT * FROM players WHERE player_id = {player_id}'
-    
-    search_player_result  = db_connection.execute_sqlite_select(search_command)
-
-    p_id = search_player_result[0][0]
-    name = search_player_result[0][1]
-    dex = search_player_result[0][2]
-    strenght = search_player_result[0][3]
-    cons = search_player_result[0][4]
-    intelligence = search_player_result[0][5]
-    wis = search_player_result[0][6]
-    charisma = search_player_result[0][7]
-    hp = search_player_result[0][8]
-    gold = search_player_result[0][9]
-
-
-    player_result = discord.Embed(
-        title=f'ID do Player: {p_id}',
-        color= discord.Colour.random()
-    )
-    player_result.add_field(name='Nome do Player', value=name, inline=False)
-    player_result.add_field(name='Destreza', value=dex, inline=True)
-    player_result.add_field(name='Força', value=strenght, inline=True)
-    player_result.add_field(name='Constituição', value=cons, inline=True)
-    player_result.add_field(name='Inteligência', value=intelligence, inline=True)
-    player_result.add_field(name='Sabedoria', value=wis, inline=True)
-    player_result.add_field(name='Carisma', value=charisma, inline=True)
-    player_result.add_field(name='HP', value=hp, inline=True)
-    player_result.add_field(name='Ouro', value=gold, inline=True)
-
-    return player_result
-
 def command_search_npc(npc_id):
     search_command = f'SELECT * FROM npcs WHERE npc_id = {npc_id}'
     
@@ -263,6 +204,29 @@ def command_search_npc(npc_id):
     npc_result.add_field(name='Ouro', value=gold, inline=True)
 
     return npc_result
+
+# Item
+
+async def command_create_item(item_info):
+    get_item_id = 'SELECT item_id, item_name FROM items ORDER BY item_id DESC LIMIT 1'
+
+    item_info_dict = create_dict(item_info)
+
+    if item_info_dict == None:
+        help_message = help_methods.create_item_help()
+
+        return help_message
+    
+    insert_item_db = db_connection.create_item_db(item_info_dict)
+    
+    if insert_item_db == True:
+        item_id = db_connection.execute_sqlite_select(get_item_id)
+
+        return_message = f"Item [{str(item_id[0][1])}] criado com sucesso! Seu ID é: [{str(item_id[0][0])}]"
+
+        return return_message
+    else:
+        return insert_item_db
 
 def command_search_item(item_id):
     search_command = f'SELECT * FROM items WHERE item_id = {item_id}'
@@ -307,55 +271,7 @@ async def command_update_item(upd_info):
         return return_message
     else:
         return update_item_db
-    
-def command_search_weapon(weapon_id):
-    search_command = f'SELECT * FROM weapons WHERE weapon_id = {weapon_id}'
-    
-    search_weapon_result  = db_connection.execute_sqlite_select(search_command)
 
-    w_id = search_weapon_result[0][0]
-    name = search_weapon_result[0][1]
-    dmg = search_weapon_result[0][2]
-    dmg_type = search_weapon_result[0][3]
-    id_npc = search_weapon_result[0][4]
-    id_player = search_weapon_result[0][5]
-
-    weapon_result = discord.Embed(
-        title=f'ID da Arma: {w_id}',
-        color= discord.Colour.random()
-    )
-    weapon_result.add_field(name='Nome da Arma', value=name, inline=False)
-    weapon_result.add_field(name='Dano', value=dmg, inline=True)
-    weapon_result.add_field(name='Tipo de Dano', value=dmg_type, inline=True)
-    if id_npc:
-        weapon_result.add_field(name='Npc', value=id_npc, inline=False)
-    else:
-        weapon_result.add_field(name='Npc', value='Nenhum', inline=False)
-
-    if id_player:
-        weapon_result.add_field(name='Player', value=id_player, inline=False)
-    else:
-        weapon_result.add_field(name='Player', value='Nenhum', inline=False)
-
-    return weapon_result
-
-async def command_update_weapon(upd_info):
-    upd_weapon_dict = create_dict(upd_info)
-
-    if upd_weapon_dict == None:
-        help_message = help_methods.update_weapon_help()
-
-        return help_message
-
-    update_weapon_db = db_connection.update_weapon_db(upd_weapon_dict)
-    
-    if update_weapon_db == True:
-        return_message = 'Arma atualizado.'
-
-        return return_message
-    else:
-        return update_weapon_db
-    
 async def command_bond_item(bond_info):
     bond_dict = create_dict(bond_info)
 
@@ -407,6 +323,77 @@ async def command_bond_item(bond_info):
         print(e)
         return error_convert_int
 
+# Arma
+
+async def command_create_weapon(weapon_info):
+    get_weapon_id = 'SELECT weapon_id, weapon_name FROM weapons ORDER BY weapon_id DESC LIMIT 1'
+
+    weapon_info_dict = create_dict(weapon_info)
+
+    if weapon_info_dict == None:
+        help_message = help_methods.create_weapon_help()
+
+        return help_message
+    
+    insert_weapon_db = db_connection.create_weapon_db(weapon_info_dict)
+    
+    if insert_weapon_db == True:
+        weapon_id = db_connection.execute_sqlite_select(get_weapon_id)
+
+        return_message = f"Arma [{str(weapon_id[0][1])}] criada com sucesso! Seu ID é: [{str(weapon_id[0][0])}]"
+
+        return return_message
+    else:
+        return insert_weapon_db
+    
+def command_search_weapon(weapon_id):
+    search_command = f'SELECT * FROM weapons WHERE weapon_id = {weapon_id}'
+    
+    search_weapon_result  = db_connection.execute_sqlite_select(search_command)
+
+    w_id = search_weapon_result[0][0]
+    name = search_weapon_result[0][1]
+    dmg = search_weapon_result[0][2]
+    dmg_type = search_weapon_result[0][3]
+    id_npc = search_weapon_result[0][4]
+    id_player = search_weapon_result[0][5]
+
+    weapon_result = discord.Embed(
+        title=f'ID da Arma: {w_id}',
+        color= discord.Colour.random()
+    )
+    weapon_result.add_field(name='Nome da Arma', value=name, inline=False)
+    weapon_result.add_field(name='Dano', value=dmg, inline=True)
+    weapon_result.add_field(name='Tipo de Dano', value=dmg_type, inline=True)
+    if id_npc:
+        weapon_result.add_field(name='Npc', value=id_npc, inline=False)
+    else:
+        weapon_result.add_field(name='Npc', value='Nenhum', inline=False)
+
+    if id_player:
+        weapon_result.add_field(name='Player', value=id_player, inline=False)
+    else:
+        weapon_result.add_field(name='Player', value='Nenhum', inline=False)
+
+    return weapon_result
+
+async def command_update_weapon(upd_info):
+    upd_weapon_dict = create_dict(upd_info)
+
+    if upd_weapon_dict == None:
+        help_message = help_methods.update_weapon_help()
+
+        return help_message
+
+    update_weapon_db = db_connection.update_weapon_db(upd_weapon_dict)
+    
+    if update_weapon_db == True:
+        return_message = 'Arma atualizado.'
+
+        return return_message
+    else:
+        return update_weapon_db
+
 async def command_bond_weapon(bond_info):
     bond_dict = create_dict(bond_info)
 
@@ -414,7 +401,7 @@ async def command_bond_weapon(bond_info):
         help_message = help_methods.bond_weapon_help()
         return help_message
     
-    error_missing_id = 'Eu preciso saber tanto o ID do weapon quanto o ID do player ou npc que irá recebê-lo, por gentileza.'
+    error_missing_id = 'Eu preciso saber tanto o ID da arma quanto o ID do player ou npc que irá recebê-la, por gentileza.'
     error_convert_int = 'Por favor, digite apenas números para os IDs.'
     bond_command = 'UPDATE weapons SET '
     success_message = 'Vinculação efetuada com sucesso.'
@@ -457,3 +444,30 @@ async def command_bond_weapon(bond_info):
     except Exception as e:
         print(e)
         return error_convert_int
+
+# Métodos Gerais
+
+def create_dict(str_dict):
+    all_info = str_dict.split()
+    string_to_dict = ''
+    
+    for i in all_info:
+        if i == ":":
+            string_to_dict += i
+        elif i == ",":
+            string_to_dict += i
+        elif ":" in i:
+            j = i.split(':')
+            string_to_dict += f"'{j[0]}':"
+        elif "," in i:
+            j = i.split(',')
+            string_to_dict += f"'{j[0]}',"
+        else:
+            string_to_dict += f"'{i}'"
+    string_to_dict_formatted = "{" + string_to_dict + "}"
+
+    try:
+        dict_created = eval(string_to_dict_formatted)
+        return dict_created
+    except:
+        return None
