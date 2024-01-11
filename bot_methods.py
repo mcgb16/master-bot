@@ -30,7 +30,7 @@ def command_roll_dice(dice):
             
             return dice_return
         except:
-            wrong_command = help_methods.roll_dice_help()
+            wrong_command = help_methods.dice_help()
             return wrong_command
     else:
         try:
@@ -43,18 +43,27 @@ def command_roll_dice(dice):
 
             return dice_return
         except:
-            wrong_command = help_methods.roll_dice_help()
+            wrong_command = help_methods.dice_help()
             return wrong_command
 
 # Help
 
 async def command_help(arg):
     if arg == 'player':
-        player_creation = help_methods.create_player_help()
-        return player_creation
+        player_help = help_methods.all_in_one_help('player')
+        return player_help
     elif arg == 'npc':
-        npc_creation = help_methods.create_npc_help()
-        return npc_creation
+        npc_help = help_methods.all_in_one_help('npc')
+        return npc_help
+    elif arg == 'dice':
+        dice_help = help_methods.all_in_one_help('dice')
+        return dice_help
+    elif arg == 'item':
+        item_help = help_methods.all_in_one_help('item')
+        return item_help
+    elif arg == 'weapon':
+        weapon_help = help_methods.all_in_one_help('weapon')
+        return weapon_help
     elif arg == None:
         help_all_in_one = help_methods.all_in_one_help()
         return help_all_in_one
@@ -67,7 +76,7 @@ async def command_create_player(player_info):
     player_info_dict = create_dict(player_info)
 
     if player_info_dict == None:
-        help_message = help_methods.create_player_help()
+        help_message = help_methods.all_in_one_help('player')
 
         return help_message
 
@@ -86,7 +95,7 @@ async def command_update_player(upd_info):
     upd_player_dict = create_dict(upd_info)
 
     if upd_player_dict == None:
-        help_message = help_methods.update_player_help()
+        help_message = help_methods.all_in_one_help('player')
 
         return help_message
 
@@ -140,7 +149,7 @@ async def command_create_npc(npc_info):
     npc_info_dict = create_dict(npc_info)
 
     if npc_info_dict == None:
-        help_message = help_methods.create_npc_help()
+        help_message = help_methods.all_in_one_help('npc')
 
         return help_message
 
@@ -159,7 +168,7 @@ async def command_update_npc(upd_info):
     upd_npc_dict = create_dict(upd_info)
 
     if upd_npc_dict == None:
-        help_message = help_methods.update_npc_help()
+        help_message = help_methods.all_in_one_help('npc')
 
         return help_message
 
@@ -213,7 +222,7 @@ async def command_create_item(item_info):
     item_info_dict = create_dict(item_info)
 
     if item_info_dict == None:
-        help_message = help_methods.create_item_help()
+        help_message = help_methods.all_in_one_help('item')
 
         return help_message
     
@@ -259,7 +268,7 @@ async def command_update_item(upd_info):
     upd_item_dict = create_dict(upd_info)
 
     if upd_item_dict == None:
-        help_message = help_methods.update_item_help()
+        help_message = help_methods.all_in_one_help('item')
 
         return help_message
 
@@ -276,7 +285,7 @@ async def command_bond_item(bond_info):
     bond_dict = create_dict(bond_info)
 
     if bond_dict == None:
-        help_message = help_methods.bond_item_help()
+        help_message = help_methods.all_in_one_help('item')
         return help_message
     
     error_missing_id = 'Eu preciso saber tanto o ID do item quanto o ID do player ou npc que irá recebê-lo, por gentileza.'
@@ -331,7 +340,7 @@ async def command_create_weapon(weapon_info):
     weapon_info_dict = create_dict(weapon_info)
 
     if weapon_info_dict == None:
-        help_message = help_methods.create_weapon_help()
+        help_message = help_methods.all_in_one_help('weapon')
 
         return help_message
     
@@ -381,7 +390,7 @@ async def command_update_weapon(upd_info):
     upd_weapon_dict = create_dict(upd_info)
 
     if upd_weapon_dict == None:
-        help_message = help_methods.update_weapon_help()
+        help_message = help_methods.all_in_one_help('weapon')
 
         return help_message
 
@@ -398,7 +407,7 @@ async def command_bond_weapon(bond_info):
     bond_dict = create_dict(bond_info)
 
     if bond_dict == None:
-        help_message = help_methods.bond_weapon_help()
+        help_message = help_methods.all_in_one_help('weapon')
         return help_message
     
     error_missing_id = 'Eu preciso saber tanto o ID da arma quanto o ID do player ou npc que irá recebê-la, por gentileza.'
