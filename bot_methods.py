@@ -48,7 +48,7 @@ def command_roll_dice(dice):
 
 # Help
 
-async def command_help(arg):
+def command_help(arg):
     if arg == 'player':
         player_help = help_methods.all_in_one_help('player')
         return player_help

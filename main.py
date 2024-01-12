@@ -30,7 +30,7 @@ async def bot_help(ctx,*, content: bot_methods.command_help = None):
     success_message = 'Te enviei uma DM!'
 
     try:
-        await ctx.author.send(await content)
+        await ctx.author.send(embed=content)
         if not isinstance(ctx.channel, bot_methods.discord.DMChannel):
             await ctx.send(success_message)
     except bot_methods.discord.Forbidden as e:

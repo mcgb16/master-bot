@@ -1,3 +1,5 @@
+import discord
+
 def verify_none(content):
     if content == None:
         return
@@ -21,10 +23,33 @@ def all_in_one_help(help_command = 'all'):
 
     all_player_commands = {
         '?cplayer': """
+Utilizado para efetuar a criação de personagens jogáveis. Para isto, alguns atributos são obrigatórios, como: nome, força, destreza, constituição, sabedoria, inteligência, vida e carisma. Além destes 8 atributos, temos o de ouro, que por sua vez não é obrigatório. **Recomendação de uso do comando:**
+
+    ?cplayer nome: Player,
+    destreza: 10,
+    força: 5,
+    constituição: 2,
+    inteligência: 5,
+    sabedOria: 9,
+    carisma: 7,
+    HP: 10,
+    ouro: 88
+
+**Observação:** é de suma importância não negligenciar o espaçamento correto entre os dois pontos (:) e o valor, assim como a vírgula (,) e o nome do atributo seguinte. Caso tenha dúvidas de como aplicar a quebra de linha em uma mensagem do discord, apenas segure a tecla CTRL e aperte a tecla ENTER.
 """,
         '?uplayer': """
+Utilizado para efetuar atualizações nos personagens jogáveis já criados. Para isto, o único atributo obrigatório é o ID, o qual é fornecido logo após efetuar a criação de um personagem jogável. Os IDs são únicos, ou seja, cada personagem tem o seu próprio ID. Após dizer o ID, basta escrever o nome do atributo e seu valor novo. **Recomendação de uso do comando:**
+
+    ?uplayer id: 1,
+    destreza: 15
+
+**Observação:** é de suma importância não negligenciar o espaçamento correto entre os dois pontos (:) e o valor, assim como a vírgula (,) e o nome do atributo seguinte. Caso tenha dúvidas de como aplicar a quebra de linha em uma mensagem do discord, apenas segure a tecla CTRL e aperte a tecla ENTER.
+**Observação 2:** é possível efetuar a atualização de quantos atributos quiser de uma vez, não precisando fazer um por vez.
 """,
         '?splayer': """
+Utilizado para efetuar buscas de personagens jogáveis na base de dados do bot. Para isto, a única informação que é preciso de ser passada é o número do ID do personagem, o qual é fornecido logo após efetuar a criação de um personagem jogável. Os IDs são únicos, ou seja, cada personagem tem o seu próprio ID. **Recomendação de uso do comando:**
+
+    ?splayer 1
 """
     }
 
@@ -61,85 +86,62 @@ def all_in_one_help(help_command = 'all'):
 
     all_dice_commands = {
         '?roll': """
-Utilizado para rodar dados. Ele deve ser utilizado da seguinte forma:
+Utilizado para rodar dados. **Ele deve ser utilizado da seguinte forma:**
+
     ?roll {número}d{número}
+
 O número da esquerda indica a quantidade de dados que serão rodados (caso não seja informado, será considerado o número 1 por padrão).
 Já o número da direita indica o número de faces do dado.
 """,
     }
 
+    embed_description = ':wave: Aqui estão todos os comandos que eu posso executar para você e a funcionalidade deles:\n'
+    embed_footer = 'Qualquer coisa pode contar comigo que estou aqui para ajudar!'
+
+    help_embed = discord.Embed(
+        title='Ajuda',
+        description=embed_description,
+    )
+
+    help_embed.set_footer(text=embed_footer)
+
     if help_command == 'all':
-        initial_phrase = ':wave: Aqui estão todos os comandos que eu posso executar para você e a funcionalidade deles:\n'
-        help_commands_presentation = '\nComandos de Ajuda!\n\n'
-        player_commands_presentation = '\nComandos de Players!\n\n'
-        npc_commands_presentation = '\nComandos de NPCs!\n\n'
-        item_commands_presentation = '\nComandos de Itens!\n\n'
-        weapon_commands_presentation = '\nComandos de Armas!\n\n'
-        dice_commands_presentation = '\nComandos de Dados!\n\n'
-
-        help_command_response = initial_phrase
-
-        help_command_response += help_commands_presentation
         for key, value in all_help_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'❄ {key}', value=value,inline=False)
 
-        help_command_response += player_commands_presentation
         for key, value in all_player_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'🎮 {key}', value=value,inline=False)
 
-        help_command_response += npc_commands_presentation
         for key, value in all_npc_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'🖥 {key}', value=value,inline=False)
 
-        help_command_response += item_commands_presentation
         for key, value in all_item_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'🥇 {key}', value=value,inline=False)
 
-        help_command_response += weapon_commands_presentation
         for key, value in all_weapon_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'⚔ {key}', value=value,inline=False)
 
-        help_command_response += dice_commands_presentation
         for key, value in all_dice_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'🎲 {key}', value=value,inline=False)
 
     elif help_command == 'player':
-        initial_phrase = ':wave: Aqui estão todos os comandos que eu posso executar para você, no âmbito de players, e a funcionalidade deles:\n\n'
-
-        help_command_response = initial_phrase
         for key, value in all_player_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'🎮 {key}', value=value,inline=False)
 
     elif help_command == 'npc':
-        initial_phrase = ':wave: Aqui estão todos os comandos que eu posso executar para você, no âmbito de npcs, e a funcionalidade deles:\n\n'
-
-        help_command_response = initial_phrase
         for key, value in all_npc_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'🖥 {key}', value=value,inline=False)
 
     elif help_command == 'item':
-        initial_phrase = ':wave: Aqui estão todos os comandos que eu posso executar para você, no âmbito de itens, e a funcionalidade deles:\n\n'
-
-        help_command_response = initial_phrase
         for key, value in all_item_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'🥇 {key}', value=value,inline=False)
 
     elif help_command == 'weapon':
-        initial_phrase = ':wave: Aqui estão todos os comandos que eu posso executar para você e a funcionalidade deles:\n\n'
-
-        help_command_response = initial_phrase
         for key, value in all_weapon_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
+            help_embed.add_field(name=f'⚔ {key}', value=value,inline=False)
 
     elif help_command == 'dice':
-        initial_phrase = ':wave: Aqui estão todos os comandos que eu posso executar para você e a funcionalidade deles:\n\n'
-
-        help_command_response = initial_phrase
         for key, value in all_dice_commands.items():
-            help_command_response += f"{key} ------> {value}\n"
-
-    final_phrase = 'Qualquer coisa pode contar comigo que estou aqui para ajudar! :wink:'
+            help_embed.add_field(name=f'🎲 {key}', value=value,inline=False)
     
-    help_command_response += final_phrase
-    
-    return help_command_response
+    return help_embed
