@@ -13,7 +13,7 @@ def command_roll_dice(dice):
     dice_return = discord.Embed(
         color= discord.Colour.random()
     )
-    
+  
     if dice_list[0] != '':
         try:
             number_of_dices = int(dice_list[0])
@@ -30,7 +30,7 @@ def command_roll_dice(dice):
             
             return dice_return
         except:
-            wrong_command = help_methods.dice_help()
+            wrong_command = help_methods.all_in_one_help('dice')
             return wrong_command
     else:
         try:
@@ -39,11 +39,11 @@ def command_roll_dice(dice):
 
             dice_return.add_field(name=f'Dado 1', value=dice_result)
 
-            dice_return.title = f'Total: {dice_total}'
+            dice_return.title = f'Total: {dice_result}'
 
             return dice_return
         except:
-            wrong_command = help_methods.dice_help()
+            wrong_command = help_methods.all_in_one_help('dice')
             return wrong_command
 
 # Help
