@@ -87,7 +87,7 @@ async def command_create_player(player_info):
 
         return_message = f"Personagem [{str(player_id[0][1])}] criado com sucesso! Seu ID é: [{str(player_id[0][0])}]"
 
-        return return_message
+        return return_message, player_id[0][0], 'player'
     else:
         return insert_player_db
 
@@ -200,7 +200,7 @@ async def command_create_npc(npc_info):
 
         return_message = f"NPC [{str(npc_id[0][1])}] criado com sucesso! Seu ID é: [{str(npc_id[0][0])}]"
 
-        return return_message
+        return return_message, npc_id[0][0], 'npc'
     else:
         return insert_npc_db
 
@@ -311,7 +311,7 @@ async def command_create_item(item_info):
 
         return_message = f"Item [{str(item_id[0][1])}] criado com sucesso! Seu ID é: [{str(item_id[0][0])}]"
 
-        return return_message
+        return return_message, item_id[0][0], 'item'
     else:
         return insert_item_db
 
@@ -434,7 +434,7 @@ async def command_create_weapon(weapon_info):
 
         return_message = f"Arma [{str(weapon_id[0][1])}] criada com sucesso! Seu ID é: [{str(weapon_id[0][0])}]"
 
-        return return_message
+        return return_message, weapon_id[0][0], 'weapon'
     else:
         return insert_weapon_db
     
@@ -568,3 +568,52 @@ def create_dict(str_dict):
         return dict_created
     except:
         return None
+
+def creation_controller(ctx, content):
+    user_id = str(ctx.author.id)
+    
+    if len(content) > 1:
+        return_message, cmd_id, cmd_type = content
+
+        if cmd_type == 'player':
+            set_owner_command = f'UPDATE players SET owner = {user_id} WHERE player_id = {cmd_id}'
+            select_cmd = f'SELECT * FROM players WHERE player_id = {cmd_id}'
+
+            set_owner = db_connection.execute_sqlite_commands(set_owner_command)
+
+            if set_owner:
+                print(db_connection.execute_sqlite_select(select_cmd))
+
+            return return_message
+        elif cmd_type == 'npc':
+            set_owner_command = f'UPDATE npcs SET owner = {user_id} WHERE npc_id = {cmd_id}'
+            select_cmd = f'SELECT * FROM npcs WHERE npc_id = {cmd_id}'
+
+            set_owner = db_connection.execute_sqlite_commands(set_owner_command)
+
+            if set_owner:
+                print(db_connection.execute_sqlite_select(select_cmd))
+
+            return return_message
+        elif cmd_type == 'item':
+            set_owner_command = f'UPDATE items SET owner = {user_id} WHERE item_id = {cmd_id}'
+            select_cmd = f'SELECT * FROM items WHERE item_id = {cmd_id}'
+
+            set_owner = db_connection.execute_sqlite_commands(set_owner_command)
+
+            if set_owner:
+                print(db_connection.execute_sqlite_select(select_cmd))
+
+            return return_message
+        elif cmd_type == 'weapon':
+            set_owner_command = f'UPDATE weapons SET owner = {user_id} WHERE weapon_id = {cmd_id}'
+            select_cmd = f'SELECT * FROM weapons WHERE weapon_id = {cmd_id}'
+
+            set_owner = db_connection.execute_sqlite_commands(set_owner_command)
+
+            if set_owner:
+                print(db_connection.execute_sqlite_select(select_cmd))
+
+            return return_message
+    else:
+        return content

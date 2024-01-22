@@ -16,7 +16,8 @@ def create_tables():
         wisdom INTEGER NOT NULL,
         charisma INTEGER NOT NULL,
         hp INTEGER NOT NULL,
-        gold INTEGER DEFAULT 0
+        gold INTEGER DEFAULT 0,
+        owner VARCHAR(18)
     )
     """
     create_table_npcs = """
@@ -30,7 +31,8 @@ def create_tables():
         wisdom INTEGER NOT NULL,
         charisma INTEGER NOT NULL,
         hp INTEGER NOT NULL,
-        gold INTEGER DEFAULT 0
+        gold INTEGER DEFAULT 0,
+        owner VARCHAR(18)
     )
     """
     create_table_items = """
@@ -39,6 +41,7 @@ def create_tables():
         item_name VARCHAR(45) NOT NULL,
         id_npc INTEGER,
         id_player INTEGER,
+        owner VARCHAR(18),
         FOREIGN KEY (id_npc) REFERENCES npcs (npc_id),
         FOREIGN KEY (id_player) REFERENCES players (player_id)
     )
@@ -51,6 +54,7 @@ def create_tables():
         damage_type VARCHAR (45) NOT NULL,
         id_npc INTEGER,
         id_player INTEGER,
+        owner VARCHAR(18),
         FOREIGN KEY (id_npc) REFERENCES npcs (npc_id),
         FOREIGN KEY (id_player) REFERENCES players (player_id)
     )

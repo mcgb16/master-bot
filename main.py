@@ -46,7 +46,8 @@ async def create_player(ctx, *, content: bot_methods.command_create_player = Non
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.creation_controller(ctx, await content)
+    await ctx.send(result)
 
 @bot.command(name='splayer')
 async def search_player(ctx, *, content: bot_methods.command_search_player = None):
@@ -75,7 +76,8 @@ async def create_npc(ctx, *, content: bot_methods.command_create_npc = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.creation_controller(ctx, await content)
+    await ctx.send(result)
 
 @bot.command(name='snpc')
 async def search_npc(ctx, *, content: bot_methods.command_search_npc = None):
@@ -104,7 +106,8 @@ async def create_item(ctx, *, content: bot_methods.command_create_item = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.creation_controller(ctx, await content)
+    await ctx.send(result)
 
 @bot.command(name='sitem')
 async def search_item(ctx, *, content: bot_methods.command_search_item = None):
@@ -142,7 +145,8 @@ async def create_weapon(ctx, *, content: bot_methods.command_create_weapon = Non
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.creation_controller(ctx, await content)
+    await ctx.send(result)
 
 @bot.command(name='sweapon')
 async def search_weapon(ctx, *, content: bot_methods.command_search_weapon = None):
