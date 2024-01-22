@@ -102,14 +102,23 @@ async def command_update_player(upd_info):
     update_player_db = db_connection.update_player_db(upd_player_dict)
     
     if update_player_db == True:
-        return_message = 'Personagem atualizado.'
+        player_id = ''
+        for k, v in upd_player_dict.items():
+            if k.lower() in add_ons.id_values:
+                player_id = int(v)
+
+        return_message = f'Personagem {player_id} atualizado.'
 
         return return_message
     else:
         return update_player_db
 
 def command_search_player(player_id):
-    search_command = f'SELECT * FROM players WHERE player_id = {player_id}'
+    search_command = f"""
+    SELECT * FROM players
+    LEFT JOIN weapons ON weapons.id_player = players.player_id
+    LEFT JOIN items ON items.id_player = players.player_id
+    WHERE player_id = {player_id}"""
     
     search_player_result  = db_connection.execute_sqlite_select(search_command)
 
@@ -123,12 +132,13 @@ def command_search_player(player_id):
     charisma = search_player_result[0][7]
     hp = search_player_result[0][8]
     gold = search_player_result[0][9]
-
+    
 
     player_result = discord.Embed(
         title=f'ID do Player: {p_id}',
         color= discord.Colour.random()
     )
+
     player_result.add_field(name='Nome do Player', value=name, inline=False)
     player_result.add_field(name='Destreza', value=dex, inline=True)
     player_result.add_field(name='Força', value=strenght, inline=True)
@@ -139,6 +149,36 @@ def command_search_player(player_id):
     player_result.add_field(name='HP', value=hp, inline=True)
     player_result.add_field(name='Ouro', value=gold, inline=True)
 
+    verify_weapon_id = []
+
+    for n,i in enumerate(search_player_result):
+        weapon_id = i[10]
+        weapon_name = i[11]
+        weapon_dmg = i[12]
+        weapon_dmg_type = i[13]
+        
+        if weapon_id:
+            if weapon_id not in verify_weapon_id:
+                player_result.add_field(name=f'Arma {n+1}', value=f'**ID:** {weapon_id} | **Nome:** {weapon_name} | **Dano:** {weapon_dmg} | **Tipo de Dano:** {weapon_dmg_type}', inline=False)
+
+                verify_weapon_id.append(weapon_id)
+            else:
+                pass
+
+    verify_item_id = []
+
+    for n,i in enumerate(search_player_result):
+        item_id = i[16]
+        item_name = i[17]
+
+        if item_id:
+            if item_id not in verify_item_id:
+                player_result.add_field(name=f'Item {n+1}', value=f'**ID:** {item_id} | **Nome:** {item_name}', inline=False)
+
+                verify_item_id.append(item_id)
+            else:
+                pass
+    
     return player_result
 
 # NPC
@@ -175,14 +215,23 @@ async def command_update_npc(upd_info):
     update_npc_db = db_connection.update_npc_db(upd_npc_dict)
     
     if update_npc_db == True:
-        return_message = 'NPC atualizado.'
+        npc_id = ''
+        for k, v in upd_npc_dict.items():
+            if k.lower() in add_ons.id_values:
+                npc_id = int(v)
+
+        return_message = f'NPC {npc_id} atualizado.'
 
         return return_message
     else:
         return update_npc_db
     
 def command_search_npc(npc_id):
-    search_command = f'SELECT * FROM npcs WHERE npc_id = {npc_id}'
+    search_command = f"""
+    SELECT * FROM npcs
+    LEFT JOIN weapons ON weapons.id_npc = npcs.npc_id
+    LEFT JOIN items ON items.id_npc = npcs.npc_id
+    WHERE npc_id = {npc_id}"""
     
     search_npc_result  = db_connection.execute_sqlite_select(search_command)
 
@@ -197,7 +246,6 @@ def command_search_npc(npc_id):
     hp = search_npc_result[0][8]
     gold = search_npc_result[0][9]
 
-
     npc_result = discord.Embed(
         title=f'ID do npc: {n_id}',
         color= discord.Colour.random()
@@ -211,6 +259,36 @@ def command_search_npc(npc_id):
     npc_result.add_field(name='Carisma', value=charisma, inline=True)
     npc_result.add_field(name='HP', value=hp, inline=True)
     npc_result.add_field(name='Ouro', value=gold, inline=True)
+    
+    verify_weapon_id = []
+
+    for n,i in enumerate(search_npc_result):
+        weapon_id = i[10]
+        weapon_name = i[11]
+        weapon_dmg = i[12]
+        weapon_dmg_type = i[13]
+        
+        if weapon_id:
+            if weapon_id not in verify_weapon_id:
+                npc_result.add_field(name=f'Arma {n+1}', value=f'**ID:** {weapon_id} | **Nome:** {weapon_name} | **Dano:** {weapon_dmg} | **Tipo de Dano:** {weapon_dmg_type}', inline=False)
+
+                verify_weapon_id.append(weapon_id)
+            else:
+                pass
+
+    verify_item_id = []
+
+    for n,i in enumerate(search_npc_result):
+        item_id = i[16]
+        item_name = i[17]
+
+        if item_id:
+            if item_id not in verify_item_id:
+                npc_result.add_field(name=f'Item {n+1}', value=f'**ID:** {item_id} | **Nome:** {item_name}', inline=False)
+
+                verify_item_id.append(item_id)
+            else:
+                pass
 
     return npc_result
 
@@ -275,7 +353,12 @@ async def command_update_item(upd_info):
     update_item_db = db_connection.update_item_db(upd_item_dict)
     
     if update_item_db == True:
-        return_message = 'Item atualizado.'
+        item_id = ''
+        for k, v in upd_item_dict.items():
+            if k.lower() in add_ons.id_values:
+                item_id = int(v)
+
+        return_message = f'Item {item_id} atualizado.'
 
         return return_message
     else:
@@ -397,7 +480,12 @@ async def command_update_weapon(upd_info):
     update_weapon_db = db_connection.update_weapon_db(upd_weapon_dict)
     
     if update_weapon_db == True:
-        return_message = 'Arma atualizado.'
+        weapon_id = ''
+        for k, v in upd_weapon_dict.items():
+            if k.lower() in add_ons.id_values:
+                weapon_id = int(v)
+
+        return_message = f'Arma {weapon_id} atualizada.'
 
         return return_message
     else:
