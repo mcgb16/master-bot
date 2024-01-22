@@ -148,7 +148,7 @@ def update_player_db(upd_dict):
 
 
     for k, v in upd_dict.items():
-        if k.lower() == 'id':
+        if k.lower() in add_ons.id_values:
             player_id = v
     
     if player_id == '':
