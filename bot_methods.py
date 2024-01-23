@@ -374,7 +374,6 @@ async def command_bond_item(bond_info):
     error_missing_id = 'Eu preciso saber tanto o ID do item quanto o ID do player ou npc que irá recebê-lo, por gentileza.'
     error_convert_int = 'Por favor, digite apenas números para os IDs.'
     bond_command = 'UPDATE items SET '
-    success_message = 'Vinculação efetuada com sucesso.'
     item_id = ''
     npc_id = ''
     player_id = ''
@@ -405,12 +404,7 @@ async def command_bond_item(bond_info):
                 
             bond_command += f' WHERE item_id = {item_id}'
 
-            save_on_db = db_connection.execute_sqlite_commands(bond_command)
-
-            if save_on_db:
-                return success_message
-            else:
-                return save_on_db
+            return bond_command, item_id, 'item'
     except Exception as e:
         print(e)
         return error_convert_int
@@ -501,7 +495,6 @@ async def command_bond_weapon(bond_info):
     error_missing_id = 'Eu preciso saber tanto o ID da arma quanto o ID do player ou npc que irá recebê-la, por gentileza.'
     error_convert_int = 'Por favor, digite apenas números para os IDs.'
     bond_command = 'UPDATE weapons SET '
-    success_message = 'Vinculação efetuada com sucesso.'
     weapon_id = ''
     npc_id = ''
     player_id = ''
@@ -532,12 +525,8 @@ async def command_bond_weapon(bond_info):
                 
             bond_command += f' WHERE weapon_id = {weapon_id}'
 
-            save_on_db = db_connection.execute_sqlite_commands(bond_command)
+            return bond_command, weapon_id, 'weapon'
 
-            if save_on_db:
-                return success_message
-            else:
-                return save_on_db
     except Exception as e:
         print(e)
         return error_convert_int
@@ -693,5 +682,32 @@ def update_controller(ctx,content):
                     return update_weapon_db
             else:
                 return not_owner
+    else:
+        return content
+
+def bond_controller(ctx, content):
+    not_owner = 'Infelizmente este registro que você está tentando editar pertence a outra pessoa, portanto você não possui permissão para efetuar essa ação.'
+    success_message = 'Vinculação efetuada com sucesso.'
+    user_id = str(ctx.author.id)
+
+    if type(content) == tuple:
+        bond_command, cmd_id, cmd_type = content
+
+        if cmd_type == 'item':
+            search_owner_cmd = f'SELECT item_id, owner FROM items WHERE item_id = {cmd_id} AND owner = {user_id}'
+        elif cmd_type == 'weapon':
+            search_owner_cmd = f'SELECT weapon_id, owner FROM weapons WHERE weapon_id = {cmd_id} AND owner = {user_id}'
+            
+        search_owner = db_connection.execute_sqlite_select(search_owner_cmd)
+            
+        if search_owner:
+            save_on_db = db_connection.execute_sqlite_commands(bond_command)
+
+            if save_on_db:
+                return success_message
+            else:
+                return save_on_db
+        else:
+            return not_owner
     else:
         return content

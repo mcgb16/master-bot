@@ -155,7 +155,11 @@ async def bond_item(ctx, *, content: bot_methods.command_bond_item = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.bond_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 # Comandos Armas
 
@@ -201,6 +205,10 @@ async def bond_weapon(ctx, *, content: bot_methods.command_bond_weapon = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.bond_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 bot.run(extras.dsc_tkn)
