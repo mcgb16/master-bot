@@ -46,8 +46,11 @@ async def create_player(ctx, *, content: bot_methods.command_create_player = Non
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    result = bot_methods.creation_controller(ctx, await content)
-    await ctx.send(result)
+    result = bot_methods.update_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 @bot.command(name='splayer')
 async def search_player(ctx, *, content: bot_methods.command_search_player = None):
@@ -65,7 +68,11 @@ async def update_player(ctx, *, content: bot_methods.command_update_player = Non
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.update_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 # Comandos NPC
 
@@ -76,8 +83,11 @@ async def create_npc(ctx, *, content: bot_methods.command_create_npc = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    result = bot_methods.creation_controller(ctx, await content)
-    await ctx.send(result)
+    result = bot_methods.update_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 @bot.command(name='snpc')
 async def search_npc(ctx, *, content: bot_methods.command_search_npc = None):
@@ -95,7 +105,11 @@ async def update_npc(ctx, *, content: bot_methods.command_update_npc = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.update_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 # Comandos Itens
 
@@ -106,8 +120,11 @@ async def create_item(ctx, *, content: bot_methods.command_create_item = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    result = bot_methods.creation_controller(ctx, await content)
-    await ctx.send(result)
+    result = bot_methods.update_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 @bot.command(name='sitem')
 async def search_item(ctx, *, content: bot_methods.command_search_item = None):
@@ -125,7 +142,11 @@ async def update_item(ctx, *, content: bot_methods.command_update_item = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.update_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 @bot.command(name='bitem')
 async def bond_item(ctx, *, content: bot_methods.command_bond_item = None):
@@ -145,8 +166,11 @@ async def create_weapon(ctx, *, content: bot_methods.command_create_weapon = Non
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    result = bot_methods.creation_controller(ctx, await content)
-    await ctx.send(result)
+    result = bot_methods.update_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 @bot.command(name='sweapon')
 async def search_weapon(ctx, *, content: bot_methods.command_search_weapon = None):
@@ -164,7 +188,11 @@ async def update_weapon(ctx, *, content: bot_methods.command_update_weapon = Non
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    await ctx.send(await content)
+    result = bot_methods.update_controller(ctx, await content)
+    if type(result) == bot_methods.discord.Embed:
+        await ctx.send(embed=result)
+    else:
+        await ctx.send(result)
 
 @bot.command(name='bweapon')
 async def bond_weapon(ctx, *, content: bot_methods.command_bond_weapon = None):

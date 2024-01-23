@@ -143,79 +143,68 @@ def create_player_db(player_dict):
     else:
         return save_db
 
-def update_player_db(upd_dict):
-    error_convert_int = 'Por favor, digite apenas números para os atributos e ID.'
-    error_missing_id = 'Por favor, preciso saber qual o ID do personagem.'
+def update_player_db(upd_dict, player_id):
+    error_convert_int = 'Por favor, digite apenas números para os atributos.'
     update_player = 'UPDATE players SET '
     attr_to_update = []
-    player_id = ''
-
-
-    for k, v in upd_dict.items():
-        if k.lower() in add_ons.id_values:
-            player_id = v
     
-    if player_id == '':
-        return error_missing_id
-    else:
-        try:
-            player_id = int(player_id)
-            for k, v in upd_dict.items():
-                if k.lower() in add_ons.name:
-                    name_upd = f"player_name = '{v}'"
-                    attr_to_update.append(name_upd)
-                elif k.lower() in add_ons.dexterity:
-                    dexterity = int(v)
-                    dex_upd = f"dexterity = {dexterity}"
-                    attr_to_update.append(dex_upd)
-                elif k.lower() in add_ons.strength:
-                    strength = int(v)
-                    str_upd = f"strength = {strength}"
-                    attr_to_update.append(str_upd)
-                elif k.lower() in add_ons.constitution:
-                    constitution = int(v)
-                    cons_upd = f"constitution = {constitution}"
-                    attr_to_update.append(cons_upd)
-                elif k.lower() in add_ons.intelligence:
-                    intelligence = int(v)
-                    int_upd = f"intelligence = {intelligence}"
-                    attr_to_update.append(int_upd)
-                elif k.lower() in add_ons.wisdom:
-                    wisdom = int(v)
-                    wis_upd = f"wisdom = {wisdom}"
-                    attr_to_update.append(wis_upd)
-                elif k.lower() in add_ons.charisma:
-                    charisma = int(v)
-                    char_upd = f"charisma = {charisma}"
-                    attr_to_update.append(char_upd)
-                elif k.lower() in add_ons.hp:
-                    hp = int(v)
-                    hp_upd = f"hp = {hp}"
-                    attr_to_update.append(hp_upd)
-                elif k.lower() in add_ons.gold:
-                    gold = int(v)
-                    gold_upd = f"gold = {gold}"
-                    attr_to_update.append(gold_upd)
-        except Exception as e:
-            print(e)
-            return error_convert_int
-        
-        update_player_command = update_player
+    try:
+        for k, v in upd_dict.items():
+            if k.lower() in add_ons.name:
+                name_upd = f"player_name = '{v}'"
+                attr_to_update.append(name_upd)
+            elif k.lower() in add_ons.dexterity:
+                dexterity = int(v)
+                dex_upd = f"dexterity = {dexterity}"
+                attr_to_update.append(dex_upd)
+            elif k.lower() in add_ons.strength:
+                strength = int(v)
+                str_upd = f"strength = {strength}"
+                attr_to_update.append(str_upd)
+            elif k.lower() in add_ons.constitution:
+                constitution = int(v)
+                cons_upd = f"constitution = {constitution}"
+                attr_to_update.append(cons_upd)
+            elif k.lower() in add_ons.intelligence:
+                intelligence = int(v)
+                int_upd = f"intelligence = {intelligence}"
+                attr_to_update.append(int_upd)
+            elif k.lower() in add_ons.wisdom:
+                wisdom = int(v)
+                wis_upd = f"wisdom = {wisdom}"
+                attr_to_update.append(wis_upd)
+            elif k.lower() in add_ons.charisma:
+                charisma = int(v)
+                char_upd = f"charisma = {charisma}"
+                attr_to_update.append(char_upd)
+            elif k.lower() in add_ons.hp:
+                hp = int(v)
+                hp_upd = f"hp = {hp}"
+                attr_to_update.append(hp_upd)
+            elif k.lower() in add_ons.gold:
+                gold = int(v)
+                gold_upd = f"gold = {gold}"
+                attr_to_update.append(gold_upd)
+    except Exception as e:
+        print(e)
+        return error_convert_int
+    
+    update_player_command = update_player
 
-        for i,v in enumerate(attr_to_update):
-            if i == len(attr_to_update)- 1:
-                update_player_command += v
-            else:
-                update_player_command += v + ', '
-        
-        update_player_command += f" WHERE player_id = {player_id}"
-
-        save_db = execute_sqlite_commands(update_player_command)
-
-        if save_db == True:
-            return True
+    for i,v in enumerate(attr_to_update):
+        if i == len(attr_to_update)- 1:
+            update_player_command += v
         else:
-            return save_db
+            update_player_command += v + ', '
+    
+    update_player_command += f" WHERE player_id = {player_id}"
+
+    save_db = execute_sqlite_commands(update_player_command)
+
+    if save_db == True:
+        return True
+    else:
+        return save_db
 
 # NPC
 
@@ -282,79 +271,68 @@ def create_npc_db(npc_dict):
     else:
         return save_db
 
-def update_npc_db(upd_dict):
-    error_convert_int = 'Por favor, digite apenas números para os atributos e ID.'
-    error_missing_id = 'Por favor, preciso saber qual o ID do NPC.'
+def update_npc_db(upd_dict, npc_id):
+    error_convert_int = 'Por favor, digite apenas números para os atributos.'
     update_npc = 'UPDATE npcs SET '
     attr_to_update = []
-    npc_id = ''
-
-
-    for k, v in upd_dict.items():
-        if k.lower() == 'id':
-            npc_id = v
     
-    if npc_id == '':
-        return error_missing_id
-    else:
-        try:
-            npc_id = int(npc_id)
-            for k, v in upd_dict.items():
-                if k.lower() in add_ons.name:
-                    name_upd = f"npc_name = '{v}'"
-                    attr_to_update.append(name_upd)
-                elif k.lower() in add_ons.dexterity:
-                    dexterity = int(v)
-                    dex_upd = f"dexterity = {dexterity}"
-                    attr_to_update.append(dex_upd)
-                elif k.lower() in add_ons.strength:
-                    strength = int(v)
-                    str_upd = f"strength = {strength}"
-                    attr_to_update.append(str_upd)
-                elif k.lower() in add_ons.constitution:
-                    constitution = int(v)
-                    cons_upd = f"constitution = {constitution}"
-                    attr_to_update.append(cons_upd)
-                elif k.lower() in add_ons.intelligence:
-                    intelligence = int(v)
-                    int_upd = f"intelligence = {intelligence}"
-                    attr_to_update.append(int_upd)
-                elif k.lower() in add_ons.wisdom:
-                    wisdom = int(v)
-                    wis_upd = f"wisdom = {wisdom}"
-                    attr_to_update.append(wis_upd)
-                elif k.lower() in add_ons.charisma:
-                    charisma = int(v)
-                    char_upd = f"charisma = {charisma}"
-                    attr_to_update.append(char_upd)
-                elif k.lower() in add_ons.hp:
-                    hp = int(v)
-                    hp_upd = f"hp = {hp}"
-                    attr_to_update.append(hp_upd)
-                elif k.lower() in add_ons.gold:
-                    gold = int(v)
-                    gold_upd = f"gold = {gold}"
-                    attr_to_update.append(gold_upd)
-        except Exception as e:
-            print(e)
-            return error_convert_int
-        
-        update_npc_command = update_npc
+    try:
+        for k, v in upd_dict.items():
+            if k.lower() in add_ons.name:
+                name_upd = f"npc_name = '{v}'"
+                attr_to_update.append(name_upd)
+            elif k.lower() in add_ons.dexterity:
+                dexterity = int(v)
+                dex_upd = f"dexterity = {dexterity}"
+                attr_to_update.append(dex_upd)
+            elif k.lower() in add_ons.strength:
+                strength = int(v)
+                str_upd = f"strength = {strength}"
+                attr_to_update.append(str_upd)
+            elif k.lower() in add_ons.constitution:
+                constitution = int(v)
+                cons_upd = f"constitution = {constitution}"
+                attr_to_update.append(cons_upd)
+            elif k.lower() in add_ons.intelligence:
+                intelligence = int(v)
+                int_upd = f"intelligence = {intelligence}"
+                attr_to_update.append(int_upd)
+            elif k.lower() in add_ons.wisdom:
+                wisdom = int(v)
+                wis_upd = f"wisdom = {wisdom}"
+                attr_to_update.append(wis_upd)
+            elif k.lower() in add_ons.charisma:
+                charisma = int(v)
+                char_upd = f"charisma = {charisma}"
+                attr_to_update.append(char_upd)
+            elif k.lower() in add_ons.hp:
+                hp = int(v)
+                hp_upd = f"hp = {hp}"
+                attr_to_update.append(hp_upd)
+            elif k.lower() in add_ons.gold:
+                gold = int(v)
+                gold_upd = f"gold = {gold}"
+                attr_to_update.append(gold_upd)
+    except Exception as e:
+        print(e)
+        return error_convert_int
+    
+    update_npc_command = update_npc
 
-        for i,v in enumerate(attr_to_update):
-            if i == len(attr_to_update)- 1:
-                update_npc_command += v
-            else:
-                update_npc_command += v + ', '
-        
-        update_npc_command += f" WHERE npc_id = {npc_id}"
-
-        save_db = execute_sqlite_commands(update_npc_command)
-
-        if save_db == True:
-            return True
+    for i,v in enumerate(attr_to_update):
+        if i == len(attr_to_update)- 1:
+            update_npc_command += v
         else:
-            return save_db
+            update_npc_command += v + ', '
+    
+    update_npc_command += f" WHERE npc_id = {npc_id}"
+
+    save_db = execute_sqlite_commands(update_npc_command)
+
+    if save_db == True:
+        return True
+    else:
+        return save_db
 
 # Item
 
@@ -382,47 +360,31 @@ def create_item_db(item_dict):
     else:
         return save_db
 
-def update_item_db(upd_dict):
-    error_convert_int = 'Por favor, digite apenas números para o ID.'
-    error_missing_id = 'Por favor, preciso saber qual o ID do Item.'
+def update_item_db(upd_dict, item_id):
     update_item = 'UPDATE items SET '
     attr_to_update = []
-    item_id = ''
-
 
     for k, v in upd_dict.items():
-        if k.lower() == 'id':
-            item_id = v
+        if k.lower() in add_ons.name:
+            name_upd = f"item_name = '{v}'"
+            attr_to_update.append(name_upd)
     
-    if item_id == '':
-        return error_missing_id
-    else:
-        try:
-            item_id = int(item_id)
-            for k, v in upd_dict.items():
-                if k.lower() in add_ons.name:
-                    name_upd = f"item_name = '{v}'"
-                    attr_to_update.append(name_upd)
-        except Exception as e:
-            print(e)
-            return error_convert_int
-        
-        update_item_command = update_item
+    update_item_command = update_item
 
-        for i,v in enumerate(attr_to_update):
-            if i == len(attr_to_update)- 1:
-                update_item_command += v
-            else:
-                update_item_command += v + ', '
-        
-        update_item_command += f" WHERE item_id = {item_id}"
-
-        save_db = execute_sqlite_commands(update_item_command)
-
-        if save_db == True:
-            return True
+    for i,v in enumerate(attr_to_update):
+        if i == len(attr_to_update)- 1:
+            update_item_command += v
         else:
-            return save_db
+            update_item_command += v + ', '
+    
+    update_item_command += f" WHERE item_id = {item_id}"
+
+    save_db = execute_sqlite_commands(update_item_command)
+
+    if save_db == True:
+        return True
+    else:
+        return save_db
 
 # Arma
 
@@ -462,54 +424,43 @@ def create_weapon_db(weapon_dict):
     else:
         return save_db
 
-def update_weapon_db(upd_dict):
-    error_convert_int = 'Por favor, digite apenas números para o dano e ID.'
-    error_missing_id = 'Por favor, preciso saber qual o ID da Arma.'
+def update_weapon_db(upd_dict, weapon_id):
+    error_convert_int = 'Por favor, digite apenas números para o dano.'
     update_weapon = 'UPDATE weapons SET '
     attr_to_update = []
-    weapon_id = ''
-
-
-    for k, v in upd_dict.items():
-        if k.lower() == 'id':
-            weapon_id = v
     
-    if weapon_id == '':
-        return error_missing_id
-    else:
-        try:
-            weapon_id = int(weapon_id)
-            for k, v in upd_dict.items():
-                if k.lower() in add_ons.name:
-                    name_upd = f"weapon_name = '{v}'"
-                    attr_to_update.append(name_upd)
-                elif k.lower() in add_ons.dmg:
-                    dmg = int(v)
-                    dmg_upd = f"damage = '{dmg}'"
-                    attr_to_update.append(dmg_upd)
-                elif k.lower() in add_ons.dmg_type:
-                    dmg_type_upd = f"damage_type = '{v}'"
-                    attr_to_update.append(dmg_type_upd)
-        except Exception as e:
-            print(e)
-            return error_convert_int
-        
-        update_weapon_command = update_weapon
+    try:
+        for k, v in upd_dict.items():
+            if k.lower() in add_ons.name:
+                name_upd = f"weapon_name = '{v}'"
+                attr_to_update.append(name_upd)
+            elif k.lower() in add_ons.dmg:
+                dmg = int(v)
+                dmg_upd = f"damage = '{dmg}'"
+                attr_to_update.append(dmg_upd)
+            elif k.lower() in add_ons.dmg_type:
+                dmg_type_upd = f"damage_type = '{v}'"
+                attr_to_update.append(dmg_type_upd)
+    except Exception as e:
+        print(e)
+        return error_convert_int
+    
+    update_weapon_command = update_weapon
 
-        for i,v in enumerate(attr_to_update):
-            if i == len(attr_to_update)- 1:
-                update_weapon_command += v
-            else:
-                update_weapon_command += v + ', '
-        
-        update_weapon_command += f" WHERE weapon_id = {weapon_id}"
-
-        save_db = execute_sqlite_commands(update_weapon_command)
-
-        if save_db == True:
-            return True
+    for i,v in enumerate(attr_to_update):
+        if i == len(attr_to_update)- 1:
+            update_weapon_command += v
         else:
-            return save_db
+            update_weapon_command += v + ', '
+    
+    update_weapon_command += f" WHERE weapon_id = {weapon_id}"
+
+    save_db = execute_sqlite_commands(update_weapon_command)
+
+    if save_db == True:
+        return True
+    else:
+        return save_db
 
 # Métodos Gerais
 
