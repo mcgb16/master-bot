@@ -115,7 +115,7 @@ async def command_update_player(upd_info):
 
 def command_search_player(player_id):
     search_command = f"""
-    SELECT * FROM players
+    SELECT player_id, player_name, dexterity, strength, constitution, intelligence, wisdom, charisma, hp, gold, weapons.weapon_id, weapons.weapon_name, weapons.damage, weapons.damage_type, items.item_id, items.item_name FROM players
     LEFT JOIN weapons ON weapons.id_player = players.player_id
     LEFT JOIN items ON items.id_player = players.player_id
     WHERE player_id = {player_id}"""
@@ -125,7 +125,7 @@ def command_search_player(player_id):
     p_id = search_player_result[0][0]
     name = search_player_result[0][1]
     dex = search_player_result[0][2]
-    strenght = search_player_result[0][3]
+    strength = search_player_result[0][3]
     cons = search_player_result[0][4]
     intelligence = search_player_result[0][5]
     wis = search_player_result[0][6]
@@ -141,7 +141,7 @@ def command_search_player(player_id):
 
     player_result.add_field(name='Nome do Player', value=name, inline=False)
     player_result.add_field(name='Destreza', value=dex, inline=True)
-    player_result.add_field(name='Força', value=strenght, inline=True)
+    player_result.add_field(name='Força', value=strength, inline=True)
     player_result.add_field(name='Constituição', value=cons, inline=True)
     player_result.add_field(name='Inteligência', value=intelligence, inline=True)
     player_result.add_field(name='Sabedoria', value=wis, inline=True)
@@ -168,8 +168,8 @@ def command_search_player(player_id):
     verify_item_id = []
 
     for n,i in enumerate(search_player_result):
-        item_id = i[16]
-        item_name = i[17]
+        item_id = i[14]
+        item_name = i[15]
 
         if item_id:
             if item_id not in verify_item_id:
@@ -228,7 +228,7 @@ async def command_update_npc(upd_info):
     
 def command_search_npc(npc_id):
     search_command = f"""
-    SELECT * FROM npcs
+    SELECT npc_id, npc_name, dexterity, strength, constitution, intelligence, wisdom, charisma, hp, gold, weapons.weapon_id, weapons.weapon_name, weapons.damage, weapons.damage_type, items.item_id, items.item_name FROM npcs
     LEFT JOIN weapons ON weapons.id_npc = npcs.npc_id
     LEFT JOIN items ON items.id_npc = npcs.npc_id
     WHERE npc_id = {npc_id}"""
@@ -279,8 +279,8 @@ def command_search_npc(npc_id):
     verify_item_id = []
 
     for n,i in enumerate(search_npc_result):
-        item_id = i[16]
-        item_name = i[17]
+        item_id = i[14]
+        item_name = i[15]
 
         if item_id:
             if item_id not in verify_item_id:
@@ -316,7 +316,7 @@ async def command_create_item(item_info):
         return insert_item_db
 
 def command_search_item(item_id):
-    search_command = f'SELECT * FROM items WHERE item_id = {item_id}'
+    search_command = f'SELECT item_id, item_name, id_npc, id_player FROM items WHERE item_id = {item_id}'
     
     search_item_result  = db_connection.execute_sqlite_select(search_command)
 
@@ -439,7 +439,7 @@ async def command_create_weapon(weapon_info):
         return insert_weapon_db
     
 def command_search_weapon(weapon_id):
-    search_command = f'SELECT * FROM weapons WHERE weapon_id = {weapon_id}'
+    search_command = f'SELECT weapon_id, weapon_name, damage, damage_type, id_npc, id_player FROM weapons WHERE weapon_id = {weapon_id}'
     
     search_weapon_result  = db_connection.execute_sqlite_select(search_command)
 
