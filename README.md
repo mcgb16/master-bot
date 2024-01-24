@@ -2,7 +2,7 @@
 
 ## Como adicionar ao seu servidor 🖥
 
-Olá! Para você adicionar esse bot ao seu servidor do discord, basta clicar neste link: https://discord.com/oauth2/authorize?client_id=1182007158154481784&permissions=Ol%C3%A1!%20Para%20voc%C3%AA%20adicionar%20esse%20bot%20ao%20seu%20servidor%20do%20discord,%20basta%20clicar%20neste%20link:%20Permissions%20Integer%20=%20945161333840&scope=bot
+Olá! Para você adicionar esse bot ao seu servidor do discord, basta clicar neste [link](https://discord.com/oauth2/authorize?client_id=1182007158154481784&permissions=Ol%C3%A1!%20Para%20voc%C3%AA%20adicionar%20esse%20bot%20ao%20seu%20servidor%20do%20discord,%20basta%20clicar%20neste%20link:%20Permissions%20Integer%20=%20945161333840&scope=bot).
 
 ## Informações Importantes
 - É de suma importância não negligenciar o espaçamento correto entre os dois pontos (:) e o valor, assim como a vírgula (,) e o nome do atributo seguinte. Caso tenha dúvidas de como aplicar a quebra de linha em uma mensagem do discord, apenas segure a tecla CTRL e aperte a tecla ENTER. O espaçamento esperado e aceito nos comandos é o seguinte:
