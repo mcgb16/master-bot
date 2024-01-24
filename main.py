@@ -46,7 +46,7 @@ async def create_player(ctx, *, content: bot_methods.command_create_player = Non
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    result = bot_methods.update_controller(ctx, await content)
+    result = bot_methods.creation_controller(ctx, await content)
     if type(result) == bot_methods.discord.Embed:
         await ctx.send(embed=result)
     else:
@@ -83,7 +83,7 @@ async def create_npc(ctx, *, content: bot_methods.command_create_npc = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    result = bot_methods.update_controller(ctx, await content)
+    result = bot_methods.creation_controller(ctx, await content)
     if type(result) == bot_methods.discord.Embed:
         await ctx.send(embed=result)
     else:
@@ -120,7 +120,7 @@ async def create_item(ctx, *, content: bot_methods.command_create_item = None):
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    result = bot_methods.update_controller(ctx, await content)
+    result = bot_methods.creation_controller(ctx, await content)
     if type(result) == bot_methods.discord.Embed:
         await ctx.send(embed=result)
     else:
@@ -170,7 +170,7 @@ async def create_weapon(ctx, *, content: bot_methods.command_create_weapon = Non
     elif bot_methods.help_methods.verify_none(content) == None:
         return
     
-    result = bot_methods.update_controller(ctx, await content)
+    result = bot_methods.creation_controller(ctx, await content)
     if type(result) == bot_methods.discord.Embed:
         await ctx.send(embed=result)
     else:
