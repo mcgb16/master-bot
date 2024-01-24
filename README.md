@@ -7,6 +7,7 @@ Olá! Para você adicionar esse bot ao seu servidor do discord, basta clicar nes
 ## Informações Importantes
 - É de suma importância não negligenciar o espaçamento correto entre os dois pontos (:) e o valor, assim como a vírgula (,) e o nome do atributo seguinte. Caso tenha dúvidas de como aplicar a quebra de linha em uma mensagem do discord, apenas segure a tecla CTRL e aperte a tecla ENTER. O espaçamento esperado e aceito nos comandos é o seguinte:
     - ?comando nome: Teste, destreza: 99
+- Não é possível editar registros (itens, personagens, armas) de outros usuários.
 
 ## Comandos 📓
 
@@ -15,6 +16,7 @@ Olá! Para você adicionar esse bot ao seu servidor do discord, basta clicar nes
 Este comando serve para rolar os dados durante o jogo. Ele recebe apenas um argumento que é o: {número}d{número}. Explicando de forma mais aprofundada, o número da esquerda indica a quantidade de dados que serão rodados (caso não seja informado, será considerado o número 1 por padrão). Já o número da direita indica o número de faces do dado.
 
 Exemplos de uso do comando com as respostas do bot:
+
 ![Alt text](/photos/roll_cmd.png)
 
 ### Players 🕹
@@ -25,15 +27,21 @@ Este comando é utilizado para efetuar a criação de personagens jogáveis. Par
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/cplayer.png)
+
 - ?uplayer
 Este comando é utilizado para efetuar atualizações nos personagens jogáveis já criados. Para isto o único atributo obrigatório é o ID, o qual é fornecido logo após efetuar a criação de um personagem jogável (vide documentação do comando anterior de criação). Os IDs são únicos, ou seja, cada personagem tem o seu próprio ID. Assim que você informar o ID do personagem o qual deseja atualizar, insira os atributos os quais deseja atualizar também. Lembre-se: você pode atualizar quantos atributos quiser ao mesmo tempo.
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/uplayer.png)
+
 - ?splayer
 Este comando é utilizado para efetuar buscas de personagens jogáveis na base de dados do bot. Para isto, a única informação que é preciso de ser passada é o número do ID do personagem, o qual é fornecido logo após efetuar a criação de um personagem jogável (vide documentação do comando de criação). Os IDs são únicos, ou seja, cada personagem tem o seu próprio ID.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/splayer.png)
 
 ### NPCs 🤖
 Comandos utilizados para configurar os NPCs. Nada impede de um jogador controlar um NPC, entretanto o recomendado é respeitar a diferenciação entre os dois tipos de personagens. Os NPCs também possuem atributos devido a sua possível em combates tanto ao lado, quanto contra, os jogadores.
@@ -43,15 +51,21 @@ Este comando é utilizado para efetuar a criação de NPCs. Para isto, alguns at
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/cnpc.png)
+
 - ?unpc
 Este comando é utilizado para efetuar atualizações nos NPCs já criados. Para isto o único atributo obrigatório é o ID, o qual é fornecido logo após efetuar a criação de um NPC (vide documentação do comando anterior de criação). Os IDs são únicos, ou seja, cada NPC tem o seu próprio ID. Assim que você informar o ID do NPC o qual deseja atualizar, insira os atributos os quais deseja atualizar também. Lembre-se: você pode atualizar quantos atributos quiser ao mesmo tempo.
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/unpc.png)
+
 - ?snpc
 Este comando é utilizado para efetuar buscas de NPCs na base de dados do bot. Para isto, a única informação que é preciso de ser passada é o número do ID do NPC, o qual é fornecido logo após efetuar a criação de um NPC (vide documentação do comando de criação). Os IDs são únicos, ou seja, cada NPC tem o seu próprio ID.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/snpc.png)
 
 ### Itens ⚙
 Comandos utilizados para efetuar a configuração de itens a serem utilizados durante o jogo.
@@ -61,20 +75,28 @@ Este comando é utilizado para efetuar a criação de itens. Para isto, a única
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/citem.png)
+
 - ?uitem
 Este comando é utilizado para efetuar atualizações nos itens já criados. Para isto, o único atributo obrigatório é o ID, o qual é fornecido logo após efetuar a criação de um item (vide documentação do comando de criação de itens). Os IDs são únicos, ou seja, cada item tem o seu próprio ID. Como os itens possuem apenas o atributo de nome, após informar o ID basta informar o nome que estará tudo correto.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/uitem.png)
 
 - ?sitem
 Este comando é utilizado para efetuar buscas de itens na base de dados do bot. Para isto, a única informação que é preciso de ser passada é o número do ID do item, o qual é fornecido logo após efetuar a criação de um item (vide documentação do comando de criação de itens). Os IDs são únicos, ou seja, cada item tem o seu próprio ID.
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/sitem.png)
+
 - ?bitem
 Este comando é utilizado para efetuar a vinculação de itens aos personagens (seja ele jogável ou NPC). Para efetuar essa vinculação, é necessário informar tanto o ID do item, quanto o ID do NPC e/ou player. Lembre-se, é possível que itens estejam vinculados tanto a NPCs quanto a players, entretanto ele pode estar vinculado a somente um de cada.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/bitem.png)
 
 ### Armas 🏹
 Comandos utilizados para efetuar a configuração de armas a serem utilizadas durante o jogo.
@@ -84,20 +106,28 @@ Este comando é utilizado para efetuar a criação de armas. Para isto, as infor
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/cweapon.png)
+
 - ?uweapon
 Este comando é utilizado para efetuar atualizações nas armas já criadas. Para isto, o único atributo obrigatório é o ID, o qual é fornecido logo após efetuar a criação de uma arma (vide documentação do comando de criação de armas). Os IDs são únicos, ou seja, cada arma tem o seu próprio ID. Assim como os outros comandos de atualização, é possível atualizar quantos atributos quiser de uma vez.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/uweapon.png)
 
 - ?sweapon
 Este comando é utilizado para efetuar buscas de armas na base de dados do bot. Para isto, a única informação que é preciso de ser passada é o número do ID do arma, o qual é fornecido logo após efetuar a criação de um arma (vide documentação do comando de criação de armas). Os IDs são únicos, ou seja, cada arma tem o seu próprio ID.
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/sweapon.png)
+
 - ?bweapon
 Este comando é utilizado para efetuar a vinculação de armas aos personagens (seja ele jogável ou NPC). Para efetuar essa vinculação, é necessário informar tanto o ID da arma, quanto o ID do NPC e/ou player. Lembre-se, é possível que armas estejam vinculadas tanto a NPCs quanto a players, entretanto ela pode estar vinculado a somente um de cada.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/bweapon.png)
 
 ### Ajuda ⁉
 Alguns comandos específicos que podem ser utilizados diretamente no bot para uma ajuda rápida referente aos comandos. Lembrando, essa ajuda não será tão aprofundada quanto a presente nesta documentação.
