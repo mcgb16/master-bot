@@ -87,35 +87,35 @@ async def command_create_player(player_info):
 
         return_message = f"Personagem [{str(player_id[0][1])}] criado com sucesso! Seu ID é: [{str(player_id[0][0])}]"
 
-        return return_message
+        return return_message, player_id[0][0], 'player'
     else:
         return insert_player_db
 
-async def command_update_player(upd_info):    
+async def command_update_player(upd_info):
+    error_convert_int = 'Por favor, digite apenas números para o ID.'
+    error_missing_id = 'Por favor, preciso saber qual o ID do Item.'
+    player_id = ''
     upd_player_dict = create_dict(upd_info)
 
     if upd_player_dict == None:
         help_message = help_methods.all_in_one_help('player')
-
         return help_message
-
-    update_player_db = db_connection.update_player_db(upd_player_dict)
     
-    if update_player_db == True:
-        player_id = ''
+    try:
         for k, v in upd_player_dict.items():
             if k.lower() in add_ons.id_values:
                 player_id = int(v)
+        
+        if player_id == '':
+            return error_missing_id
 
-        return_message = f'Personagem {player_id} atualizado.'
-
-        return return_message
-    else:
-        return update_player_db
+        return upd_player_dict, player_id, 'player'
+    except:
+        return error_convert_int
 
 def command_search_player(player_id):
     search_command = f"""
-    SELECT * FROM players
+    SELECT player_id, player_name, dexterity, strength, constitution, intelligence, wisdom, charisma, hp, gold, weapons.weapon_id, weapons.weapon_name, weapons.damage, weapons.damage_type, items.item_id, items.item_name FROM players
     LEFT JOIN weapons ON weapons.id_player = players.player_id
     LEFT JOIN items ON items.id_player = players.player_id
     WHERE player_id = {player_id}"""
@@ -125,7 +125,7 @@ def command_search_player(player_id):
     p_id = search_player_result[0][0]
     name = search_player_result[0][1]
     dex = search_player_result[0][2]
-    strenght = search_player_result[0][3]
+    strength = search_player_result[0][3]
     cons = search_player_result[0][4]
     intelligence = search_player_result[0][5]
     wis = search_player_result[0][6]
@@ -141,7 +141,7 @@ def command_search_player(player_id):
 
     player_result.add_field(name='Nome do Player', value=name, inline=False)
     player_result.add_field(name='Destreza', value=dex, inline=True)
-    player_result.add_field(name='Força', value=strenght, inline=True)
+    player_result.add_field(name='Força', value=strength, inline=True)
     player_result.add_field(name='Constituição', value=cons, inline=True)
     player_result.add_field(name='Inteligência', value=intelligence, inline=True)
     player_result.add_field(name='Sabedoria', value=wis, inline=True)
@@ -168,8 +168,8 @@ def command_search_player(player_id):
     verify_item_id = []
 
     for n,i in enumerate(search_player_result):
-        item_id = i[16]
-        item_name = i[17]
+        item_id = i[14]
+        item_name = i[15]
 
         if item_id:
             if item_id not in verify_item_id:
@@ -200,35 +200,35 @@ async def command_create_npc(npc_info):
 
         return_message = f"NPC [{str(npc_id[0][1])}] criado com sucesso! Seu ID é: [{str(npc_id[0][0])}]"
 
-        return return_message
+        return return_message, npc_id[0][0], 'npc'
     else:
         return insert_npc_db
 
 async def command_update_npc(upd_info):
+    error_convert_int = 'Por favor, digite apenas números para o ID.'
+    error_missing_id = 'Por favor, preciso saber qual o ID do Item.'
+    npc_id = ''
     upd_npc_dict = create_dict(upd_info)
 
     if upd_npc_dict == None:
         help_message = help_methods.all_in_one_help('npc')
-
         return help_message
-
-    update_npc_db = db_connection.update_npc_db(upd_npc_dict)
     
-    if update_npc_db == True:
-        npc_id = ''
+    try:
         for k, v in upd_npc_dict.items():
             if k.lower() in add_ons.id_values:
                 npc_id = int(v)
+        
+        if npc_id == '':
+            return error_missing_id
 
-        return_message = f'NPC {npc_id} atualizado.'
-
-        return return_message
-    else:
-        return update_npc_db
+        return upd_npc_dict, npc_id, 'npc'
+    except:
+        return error_convert_int
     
 def command_search_npc(npc_id):
     search_command = f"""
-    SELECT * FROM npcs
+    SELECT npc_id, npc_name, dexterity, strength, constitution, intelligence, wisdom, charisma, hp, gold, weapons.weapon_id, weapons.weapon_name, weapons.damage, weapons.damage_type, items.item_id, items.item_name FROM npcs
     LEFT JOIN weapons ON weapons.id_npc = npcs.npc_id
     LEFT JOIN items ON items.id_npc = npcs.npc_id
     WHERE npc_id = {npc_id}"""
@@ -279,8 +279,8 @@ def command_search_npc(npc_id):
     verify_item_id = []
 
     for n,i in enumerate(search_npc_result):
-        item_id = i[16]
-        item_name = i[17]
+        item_id = i[14]
+        item_name = i[15]
 
         if item_id:
             if item_id not in verify_item_id:
@@ -311,12 +311,12 @@ async def command_create_item(item_info):
 
         return_message = f"Item [{str(item_id[0][1])}] criado com sucesso! Seu ID é: [{str(item_id[0][0])}]"
 
-        return return_message
+        return return_message, item_id[0][0], 'item'
     else:
         return insert_item_db
 
 def command_search_item(item_id):
-    search_command = f'SELECT * FROM items WHERE item_id = {item_id}'
+    search_command = f'SELECT item_id, item_name, id_npc, id_player FROM items WHERE item_id = {item_id}'
     
     search_item_result  = db_connection.execute_sqlite_select(search_command)
 
@@ -343,26 +343,26 @@ def command_search_item(item_id):
     return item_result
 
 async def command_update_item(upd_info):
+    error_convert_int = 'Por favor, digite apenas números para o ID.'
+    error_missing_id = 'Por favor, preciso saber qual o ID do Item.'
+    item_id = ''
     upd_item_dict = create_dict(upd_info)
 
     if upd_item_dict == None:
         help_message = help_methods.all_in_one_help('item')
-
         return help_message
-
-    update_item_db = db_connection.update_item_db(upd_item_dict)
     
-    if update_item_db == True:
-        item_id = ''
+    try:
         for k, v in upd_item_dict.items():
             if k.lower() in add_ons.id_values:
                 item_id = int(v)
+        
+        if item_id == '':
+            return error_missing_id
 
-        return_message = f'Item {item_id} atualizado.'
-
-        return return_message
-    else:
-        return update_item_db
+        return upd_item_dict, item_id, 'item'
+    except:
+        return error_convert_int
 
 async def command_bond_item(bond_info):
     bond_dict = create_dict(bond_info)
@@ -374,7 +374,6 @@ async def command_bond_item(bond_info):
     error_missing_id = 'Eu preciso saber tanto o ID do item quanto o ID do player ou npc que irá recebê-lo, por gentileza.'
     error_convert_int = 'Por favor, digite apenas números para os IDs.'
     bond_command = 'UPDATE items SET '
-    success_message = 'Vinculação efetuada com sucesso.'
     item_id = ''
     npc_id = ''
     player_id = ''
@@ -405,12 +404,7 @@ async def command_bond_item(bond_info):
                 
             bond_command += f' WHERE item_id = {item_id}'
 
-            save_on_db = db_connection.execute_sqlite_commands(bond_command)
-
-            if save_on_db:
-                return success_message
-            else:
-                return save_on_db
+            return bond_command, item_id, 'item'
     except Exception as e:
         print(e)
         return error_convert_int
@@ -434,12 +428,12 @@ async def command_create_weapon(weapon_info):
 
         return_message = f"Arma [{str(weapon_id[0][1])}] criada com sucesso! Seu ID é: [{str(weapon_id[0][0])}]"
 
-        return return_message
+        return return_message, weapon_id[0][0], 'weapon'
     else:
         return insert_weapon_db
     
 def command_search_weapon(weapon_id):
-    search_command = f'SELECT * FROM weapons WHERE weapon_id = {weapon_id}'
+    search_command = f'SELECT weapon_id, weapon_name, damage, damage_type, id_npc, id_player FROM weapons WHERE weapon_id = {weapon_id}'
     
     search_weapon_result  = db_connection.execute_sqlite_select(search_command)
 
@@ -470,26 +464,26 @@ def command_search_weapon(weapon_id):
     return weapon_result
 
 async def command_update_weapon(upd_info):
+    error_convert_int = 'Por favor, digite apenas números para o ID.'
+    error_missing_id = 'Por favor, preciso saber qual o ID do Item.'
+    weapon_id = ''
     upd_weapon_dict = create_dict(upd_info)
 
     if upd_weapon_dict == None:
         help_message = help_methods.all_in_one_help('weapon')
-
         return help_message
-
-    update_weapon_db = db_connection.update_weapon_db(upd_weapon_dict)
     
-    if update_weapon_db == True:
-        weapon_id = ''
+    try:
         for k, v in upd_weapon_dict.items():
             if k.lower() in add_ons.id_values:
                 weapon_id = int(v)
+        
+        if weapon_id == '':
+            return error_missing_id
 
-        return_message = f'Arma {weapon_id} atualizada.'
-
-        return return_message
-    else:
-        return update_weapon_db
+        return upd_weapon_dict, weapon_id, 'weapon'
+    except:
+        return error_convert_int
 
 async def command_bond_weapon(bond_info):
     bond_dict = create_dict(bond_info)
@@ -501,7 +495,6 @@ async def command_bond_weapon(bond_info):
     error_missing_id = 'Eu preciso saber tanto o ID da arma quanto o ID do player ou npc que irá recebê-la, por gentileza.'
     error_convert_int = 'Por favor, digite apenas números para os IDs.'
     bond_command = 'UPDATE weapons SET '
-    success_message = 'Vinculação efetuada com sucesso.'
     weapon_id = ''
     npc_id = ''
     player_id = ''
@@ -532,12 +525,8 @@ async def command_bond_weapon(bond_info):
                 
             bond_command += f' WHERE weapon_id = {weapon_id}'
 
-            save_on_db = db_connection.execute_sqlite_commands(bond_command)
+            return bond_command, weapon_id, 'weapon'
 
-            if save_on_db:
-                return success_message
-            else:
-                return save_on_db
     except Exception as e:
         print(e)
         return error_convert_int
@@ -568,3 +557,157 @@ def create_dict(str_dict):
         return dict_created
     except:
         return None
+
+def creation_controller(ctx, content):
+    user_id = str(ctx.author.id)
+    
+    if type(content) == tuple:
+        return_message, cmd_id, cmd_type = content
+
+        if cmd_type == 'player':
+            set_owner_command = f'UPDATE players SET owner = {user_id} WHERE player_id = {cmd_id}'
+            select_cmd = f'SELECT * FROM players WHERE player_id = {cmd_id}'
+
+            set_owner = db_connection.execute_sqlite_commands(set_owner_command)
+
+            if set_owner:
+                print(db_connection.execute_sqlite_select(select_cmd))
+
+            return return_message
+        elif cmd_type == 'npc':
+            set_owner_command = f'UPDATE npcs SET owner = {user_id} WHERE npc_id = {cmd_id}'
+            select_cmd = f'SELECT * FROM npcs WHERE npc_id = {cmd_id}'
+
+            set_owner = db_connection.execute_sqlite_commands(set_owner_command)
+
+            if set_owner:
+                print(db_connection.execute_sqlite_select(select_cmd))
+
+            return return_message
+        elif cmd_type == 'item':
+            set_owner_command = f'UPDATE items SET owner = {user_id} WHERE item_id = {cmd_id}'
+            select_cmd = f'SELECT * FROM items WHERE item_id = {cmd_id}'
+
+            set_owner = db_connection.execute_sqlite_commands(set_owner_command)
+
+            if set_owner:
+                print(db_connection.execute_sqlite_select(select_cmd))
+
+            return return_message
+        elif cmd_type == 'weapon':
+            set_owner_command = f'UPDATE weapons SET owner = {user_id} WHERE weapon_id = {cmd_id}'
+            select_cmd = f'SELECT * FROM weapons WHERE weapon_id = {cmd_id}'
+
+            set_owner = db_connection.execute_sqlite_commands(set_owner_command)
+
+            if set_owner:
+                print(db_connection.execute_sqlite_select(select_cmd))
+
+            return return_message
+    else:
+        return content
+    
+def update_controller(ctx,content):
+    not_owner = 'Infelizmente este registro que você está tentando editar pertence a outra pessoa, portanto você não possui permissão para efetuar essa ação.'
+    user_id = str(ctx.author.id)
+
+    if type(content) == tuple:
+        upd_dict, cmd_id, cmd_type = content
+
+        if cmd_type == 'player':
+            search_owner_cmd = f'SELECT player_id, owner FROM players WHERE player_id = {cmd_id} AND owner = {user_id}'
+
+            search_owner = db_connection.execute_sqlite_select(search_owner_cmd)
+            
+            if search_owner:
+                update_player_db = db_connection.update_player_db(upd_dict, cmd_id)
+    
+                if update_player_db == True:
+
+                    return_message = f'Player {cmd_id} atualizado.'
+
+                    return return_message
+                else:
+                    return update_player_db
+            else:
+                return not_owner
+        elif cmd_type == 'npc':
+            search_owner_cmd = f'SELECT npc_id, owner FROM npcs WHERE npc_id = {cmd_id} AND owner = {user_id}'
+
+            search_owner = db_connection.execute_sqlite_select(search_owner_cmd)
+            
+            if search_owner:
+                update_npc_db = db_connection.update_npc_db(upd_dict, cmd_id)
+    
+                if update_npc_db == True:
+
+                    return_message = f'NPC {cmd_id} atualizado.'
+
+                    return return_message
+                else:
+                    return update_npc_db
+            else:
+                return not_owner
+        elif cmd_type == 'item':
+            search_owner_cmd = f'SELECT item_id, owner FROM items WHERE item_id = {cmd_id} AND owner = {user_id}'
+
+            search_owner = db_connection.execute_sqlite_select(search_owner_cmd)
+            
+            if search_owner:
+                update_item_db = db_connection.update_item_db(upd_dict, cmd_id)
+    
+                if update_item_db == True:
+
+                    return_message = f'Item {cmd_id} atualizado.'
+
+                    return return_message
+                else:
+                    return update_item_db
+            else:
+                return not_owner
+        elif cmd_type == 'weapon':
+            search_owner_cmd = f'SELECT weapon_id, owner FROM weapons WHERE weapon_id = {cmd_id} AND owner = {user_id}'
+
+            search_owner = db_connection.execute_sqlite_select(search_owner_cmd)
+            
+            if search_owner:
+                update_weapon_db = db_connection.update_weapon_db(upd_dict, cmd_id)
+    
+                if update_weapon_db == True:
+
+                    return_message = f'Arma {cmd_id} atualizada.'
+
+                    return return_message
+                else:
+                    return update_weapon_db
+            else:
+                return not_owner
+    else:
+        return content
+
+def bond_controller(ctx, content):
+    not_owner = 'Infelizmente este registro que você está tentando editar pertence a outra pessoa, portanto você não possui permissão para efetuar essa ação.'
+    success_message = 'Vinculação efetuada com sucesso.'
+    user_id = str(ctx.author.id)
+
+    if type(content) == tuple:
+        bond_command, cmd_id, cmd_type = content
+
+        if cmd_type == 'item':
+            search_owner_cmd = f'SELECT item_id, owner FROM items WHERE item_id = {cmd_id} AND owner = {user_id}'
+        elif cmd_type == 'weapon':
+            search_owner_cmd = f'SELECT weapon_id, owner FROM weapons WHERE weapon_id = {cmd_id} AND owner = {user_id}'
+            
+        search_owner = db_connection.execute_sqlite_select(search_owner_cmd)
+            
+        if search_owner:
+            save_on_db = db_connection.execute_sqlite_commands(bond_command)
+
+            if save_on_db:
+                return success_message
+            else:
+                return save_on_db
+        else:
+            return not_owner
+    else:
+        return content
