@@ -341,10 +341,13 @@ def create_item_db(item_dict):
     name = ''
     verify_cont = 0
 
-    for k, v in item_dict.items():
-        if k.lower() in add_ons.name:
-            name = v
-            verify_cont += 1            
+    try:
+        for k, v in item_dict.items():
+            if k.lower() in add_ons.name:
+                name = v
+                verify_cont += 1
+    except:
+        return missing_information
 
     if verify_cont != 1:
         return missing_information
