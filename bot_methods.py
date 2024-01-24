@@ -624,7 +624,7 @@ def update_controller(ctx,content):
     
                 if update_player_db == True:
 
-                    return_message = f'Player {cmd_id} atualizado.'
+                    return_message = f'Personagem {cmd_id} atualizado.'
 
                     return return_message
                 else:
