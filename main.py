@@ -26,7 +26,7 @@ async def bot_help(ctx,*, content: bot_methods.command_help = None):
     if content == None:
         content = bot_methods.command_help(None)
 
-    error_message = f'Não foi possível enviar mensagem privada para {ctx.author}. Talvez as mensagens privadas estejam desativadas ou eu não tenho permissão para fazer isso.'   
+    error_message = f'Não foi possível enviar mensagem privada para {ctx.author}. Talvez as mensagens privadas estejam desativadas ou eu não tenho permissão para fazer isso.'
     success_message = 'Te enviei uma DM!'
 
     try:
@@ -36,6 +36,7 @@ async def bot_help(ctx,*, content: bot_methods.command_help = None):
     except bot_methods.discord.Forbidden as e:
         print(e)
         await ctx.send(error_message)
+        await ctx.send(embed=content)
 
 # Comandos Player
 
