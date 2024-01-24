@@ -331,12 +331,12 @@ def command_search_item(item_id):
     )
     item_result.add_field(name='Nome do Item', value=name, inline=False)
     if id_npc:
-        item_result.add_field(name='Npc', value=id_npc, inline=False)
+        item_result.add_field(name='ID Npc', value=id_npc, inline=False)
     else:
         item_result.add_field(name='Npc', value='Nenhum', inline=False)
 
     if id_player:
-        item_result.add_field(name='Player', value=id_player, inline=False)
+        item_result.add_field(name='ID Player', value=id_player, inline=False)
     else:
         item_result.add_field(name='Player', value='Nenhum', inline=False)
 
@@ -452,12 +452,12 @@ def command_search_weapon(weapon_id):
     weapon_result.add_field(name='Dano', value=dmg, inline=True)
     weapon_result.add_field(name='Tipo de Dano', value=dmg_type, inline=True)
     if id_npc:
-        weapon_result.add_field(name='Npc', value=id_npc, inline=False)
+        weapon_result.add_field(name='ID Npc', value=id_npc, inline=False)
     else:
         weapon_result.add_field(name='Npc', value='Nenhum', inline=False)
 
     if id_player:
-        weapon_result.add_field(name='Player', value=id_player, inline=False)
+        weapon_result.add_field(name='ID Player', value=id_player, inline=False)
     else:
         weapon_result.add_field(name='Player', value='Nenhum', inline=False)
 
