@@ -132,35 +132,49 @@ Exemplo de uso do comando com a resposta do bot:
 ### Ajuda ⁉
 Alguns comandos específicos que podem ser utilizados diretamente no bot para uma ajuda rápida referente aos comandos. Lembrando, essa ajuda não será tão aprofundada quanto a presente nesta documentação.
 
+Observação: a resposta do bot é enviada no privado do jogador, assim não floodando o canal em que ele está presente (a menos que o jogador não permita o envio de mensagens diretas, ai a mensagem será enviada no próprio canal mesmo, com o aviso dessa restrição).
+
 - ?h
 Este comando é utilizado para trazer uma ajuda geral referente a todos os comandos de uma vez. Lembre-se: todos os comandos de ajuda possuirão o link desta documentação em seu rodapé.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/h.png)
 
 - ?h player
 Este comando é utilizado para trazer uma ajuda geral referente a todos os comandos relacionados aos players de uma vez. Lembre-se: todos os comandos de ajuda possuirão o link desta documentação em seu rodapé.
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/hplayer.png)
+
 - ?h npc
 Este comando é utilizado para trazer uma ajuda geral referente a todos os comandos relacionados aos NPCs de uma vez. Lembre-se: todos os comandos de ajuda possuirão o link desta documentação em seu rodapé.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/hnpc.png)
 
 - ?h item
 Este comando é utilizado para trazer uma ajuda geral referente a todos os comandos relacionados aos itens de uma vez. Lembre-se: todos os comandos de ajuda possuirão o link desta documentação em seu rodapé.
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/hitem.png)
+
 - ?h weapon
 Este comando é utilizado para trazer uma ajuda geral referente a todos os comandos relacionados às armas de uma vez. Lembre-se: todos os comandos de ajuda possuirão o link desta documentação em seu rodapé.
 
 Exemplo de uso do comando com a resposta do bot:
 
+![Alt text](/photos/hweapon.png)
+
 - ?h dice
 Este comando é utilizado para trazer uma ajuda geral referente a todos os comandos relacionados aos dados vez. Lembre-se: todos os comandos de ajuda possuirão o link desta documentação em seu rodapé.
 
 Exemplo de uso do comando com a resposta do bot:
+
+![Alt text](/photos/hdice.png)
 
 
 ## Atributos
