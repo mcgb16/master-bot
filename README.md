@@ -8,6 +8,7 @@ Olá! Para você adicionar esse bot ao seu servidor do discord, basta clicar nes
 - É de suma importância não negligenciar o espaçamento correto entre os dois pontos (:) e o valor, assim como a vírgula (,) e o nome do atributo seguinte. Caso tenha dúvidas de como aplicar a quebra de linha em uma mensagem do discord, apenas segure a tecla CTRL e aperte a tecla ENTER. O espaçamento esperado e aceito nos comandos é o seguinte:
     - ?comando nome: Teste, destreza: 99
 - Não é possível editar registros (itens, personagens, armas) de outros usuários.
+- Este bot ainda não está hospedado em nenhuma plataforma, portanto, o teste prático dele em seus próprios servidores ainda não irá funcionar.
 
 ## Comandos 📓
 
